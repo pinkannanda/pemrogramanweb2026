@@ -2,58 +2,63 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIMPUS-Mini | Daftar Buku</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <header>
         <h1>SIMPUS-Mini</h1>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
         <nav>
             <ul>
                 <li><a href="../index.html">Beranda</a></li>
                 <li><a href="list.html">Daftar Buku</a></li>
+                <li><a href="tambah.html">Tambah Buku</a></li>
                 <li><a href="../anggota/list.html">Daftar Anggota</a></li>
                 <li><a href="../anggota/tambah.html">Tambah Anggota</a></li>
-                <li><a href="tambah.html">Tambah Buku</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <section>
             <h2>Daftar Buku</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Kode Buku</th>
-                        <th>Judul</th>
-                        <th>Pengarang</th>
-                        <th>Stok</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>B001</td>
-                        <td>Pemrograman Web Dasar</td>
-                        <td>Andi Nugroho</td>
-                        <td>5</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button">Hapus</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>B002</td>
-                        <td>Algoritma dan Struktur Data</td>
-                        <td>Dewi Lestari</td>
-                        <td>3</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button">Hapus</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kode Buku</th>
+                            <th>Judul</th>
+                            <th>Pengarang</th>
+                            <th>Stok</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>B001</td>
+                            <td>Pemrograman Web Dasar</td>
+                            <td>Andi Nugroho</td>
+                            <td>5</td>
+                            <td>
+                                <button type="button">Edit</button>
+                                <button type="button">Hapus</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>B002</td>
+                            <td>Algoritma dan Struktur Data</td>
+                            <td>Dewi Lestari</td>
+                            <td>3</td>
+                            <td>
+                                <button type="button">Edit</button>
+                                <button type="button">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
     <footer>

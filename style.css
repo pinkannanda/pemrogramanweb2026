@@ -47,6 +47,24 @@ header nav a {
     font-weight: 500;
 }
 
+/* ===== Hamburger (Checkbox Hack) ===== */
+/* Checkbox disembunyikan dari layar, tapi tetap ada di DOM
+   supaya state :checked-nya bisa dipakai selector di bawah. */
+.nav-toggle {
+    display: none;
+}
+
+/* Ikon hamburger disembunyikan di desktop,
+   baru dimunculkan di dalam media query mobile. */
+.nav-toggle-label {
+    display: none;
+    font-size: 1.6rem;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    line-height: 1;
+}
+
 /* ===== Main Layout ===== */
 main {
     max-width: 1000px;
@@ -94,6 +112,12 @@ main section:nth-of-type(2) article p {
 }
 
 /* ===== Tabel ===== */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -179,4 +203,100 @@ footer {
     padding: 1.25rem;
     color: #7a8794;
     font-size: 0.9rem;
+}
+
+/* =========================================================
+   BREAKPOINT RESPONSIF (strategi desktop-first, max-width)
+   Ditulis paling bawah supaya menimpa gaya dasar di atas.
+   ========================================================= */
+
+/* ---------- Tablet: <= 768px ---------- */
+@media (max-width: 768px) {
+
+    /* Ikon hamburger muncul */
+    .nav-toggle-label {
+        display: block;
+    }
+
+    /* Menu disembunyikan secara default di layar sempit */
+    header nav {
+        display: none;
+        width: 100%;
+        order: 3;             /* dipaksa turun ke baris baru di bawah header */
+        margin-top: 0.75rem;
+    }
+
+    /* Checkbox hack: saat checkbox tercentang,
+       <nav> yang berada SETELAHNYA (sibling ~) ditampilkan. */
+    .nav-toggle:checked ~ nav {
+        display: block;
+    }
+
+    /* Menu vertikal saat terbuka */
+    header nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    header nav a {
+        display: block;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    /* Kartu statistik: 3 kolom -> 2 kolom */
+    main section:nth-of-type(2) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    main {
+        margin: 1.25rem auto;
+        padding: 0 1rem;
+    }
+
+    /* Tabel tidak dipaksa menyusut, biarkan scroll horizontal */
+    .table-responsive table {
+        min-width: 600px;
+    }
+}
+
+/* ---------- Mobile: <= 480px ---------- */
+@media (max-width: 480px) {
+
+    header {
+        padding: 0.85rem 1rem;
+    }
+
+    header h1 {
+        font-size: 1.15rem;
+    }
+
+    /* Kartu statistik: 2 kolom -> 1 kolom (menumpuk ke bawah) */
+    main section:nth-of-type(2) {
+        grid-template-columns: 1fr;
+    }
+
+    section {
+        padding: 1rem;
+    }
+
+    section h2 {
+        font-size: 1.15rem;
+    }
+
+    /* Input selebar layar agar nyaman disentuh */
+    form input,
+    form select {
+        max-width: 100%;
+    }
+
+    form button[type="submit"] {
+        width: 100%;
+    }
+
+    td button {
+        display: block;
+        width: 100%;
+        margin: 0 0 0.35rem 0;
+    }
 }
