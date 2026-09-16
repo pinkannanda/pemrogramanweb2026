@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENHYPEN Live in Concert — Tiket</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-bar">
+    <a href="#beranda" class="brand">ENHYPEN <span>TICKETS</span></a>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="nav-toggle-label" aria-label="Buka menu"><span></span></label>
+
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#beranda">Beranda</a></li>
+        <li><a href="#tiket">Kategori Tiket</a></li>
+        <li><a href="#benefit">Benefit VIP</a></li>
+        <li><a href="#pesan">Pesan Tiket</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" id="beranda">
+    <h1>ENHYPEN Live in Concert</h1>
+    <p>Jakarta International Stadium &mdash; Jumat, 23 Januari 2026 &mdash; Gate 15.00 WIB</p>
+    <a href="#pesan" class="btn">Pesan Tiket</a>
+  </section>
+
+  <section class="section container">
+    <h2>Informasi Acara</h2>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Waktu</th>
+            <th>Venue</th>
+            <th>Gate Open</th>
+            <th>Durasi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>23 Januari 2026</td>
+            <td>19.00 WIB</td>
+            <td>Jakarta International Stadium</td>
+            <td>15.00 WIB</td>
+            <td>&plusmn; 180 menit</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section container" id="tiket">
+    <h2>Kategori Tiket</h2>
+    <div class="ticket-grid">
+
+      <div class="ticket-card">
+        <span class="swatch" style="background:#7a1f2b;"></span>
+        <h3>VIP A &amp; B</h3>
+        <p class="type">Standing</p>
+        <p class="price">Rp 3.650.000</p>
+      </div>
+
+      <div class="ticket-card">
+        <span class="swatch" style="background:#a3697a;"></span>
+        <h3>CAT 1</h3>
+        <p class="type">Numbered Seating</p>
+        <p class="price">Rp 3.450.000</p>
+      </div>
+
+      <div class="ticket-card">
+        <span class="swatch" style="background:#c08a52;"></span>
+        <h3>CAT 2 A, B &amp; C</h3>
+        <p class="type">Numbered Seating</p>
+        <p class="price">Rp 3.250.000</p>
+      </div>
+
+      <div class="ticket-card">
+        <span class="swatch" style="background:#5b7c92;"></span>
+        <h3>CAT 3</h3>
+        <p class="type">Numbered Seating</p>
+        <p class="price">Rp 2.950.000</p>
+      </div>
+
+      <div class="ticket-card">
+        <span class="swatch" style="background:#c7a542;"></span>
+        <h3>CAT 4</h3>
+        <p class="type">Numbered Seating</p>
+        <p class="price">Rp 2.750.000</p>
+      </div>
+
+      <div class="ticket-card">
+        <span class="swatch" style="background:#6f9270;"></span>
+        <h3>CAT 5</h3>
+        <p class="type">Numbered Seating</p>
+        <p class="price">Rp 2.250.000</p>
+      </div>
+
+      <div class="ticket-card">
+        <span class="swatch" style="background:#6f5178;"></span>
+        <h3>CAT 6 A &amp; B</h3>
+        <p class="type">Numbered Seating</p>
+        <p class="price">Rp 1.850.000</p>
+      </div>
+
+      <div class="ticket-card">
+        <span class="swatch" style="background:#a9c3cf;"></span>
+        <h3>CAT 7 A &amp; B</h3>
+        <p class="type">Numbered Seating</p>
+        <p class="price">Rp 1.450.000</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section container" id="benefit">
+    <h2>Benefit VIP A &amp; B</h2>
+    <ul class="benefit-list">
+      <li>Satu (1) tiket VIP A/B (Standing)</li>
+      <li>Akses eksklusif ke sesi soundcheck</li>
+      <li>Merchandise VIP spesial dari ENHYPEN</li>
+      <li>Laminate &amp; lanyard eksklusif VIP</li>
+      <li>Jalur masuk khusus (dedicated entrance)</li>
+      <li>Jalur merchandise khusus (dedicated merchandise lane)</li>
+    </ul>
+  </section>
+
+  <section class="section container" id="pesan">
+    <h2>Formulir Pemesanan</h2>
+    <form class="order-form">
+      <div class="form-row">
+        <label for="nama">Nama Lengkap</label>
+        <input type="text" id="nama" name="nama" required>
+      </div>
+
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-row">
+        <label for="kategori">Kategori Tiket</label>
+        <select id="kategori" name="kategori">
+          <option>VIP A &amp; B &mdash; Rp 3.650.000</option>
+          <option>CAT 1 &mdash; Rp 3.450.000</option>
+          <option>CAT 2 A, B &amp; C &mdash; Rp 3.250.000</option>
+          <option>CAT 3 &mdash; Rp 2.950.000</option>
+          <option>CAT 4 &mdash; Rp 2.750.000</option>
+          <option>CAT 5 &mdash; Rp 2.250.000</option>
+          <option>CAT 6 A &amp; B &mdash; Rp 1.850.000</option>
+          <option>CAT 7 A &amp; B &mdash; Rp 1.450.000</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="jumlah">Jumlah Tiket</label>
+        <input type="number" id="jumlah" name="jumlah" min="1" max="4" value="1">
+      </div>
+
+      <button type="submit" class="btn btn-block">Pesan Sekarang</button>
+    </form>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Tugas Praktikum Pemrograman Web &mdash; Jobsheet 3 (HTML &amp; CSS Responsif)</p>
+  <p>Data acara bersifat fiktif untuk keperluan latihan, bukan informasi resmi.</p>
+</footer>
+
+</body>
+</html>

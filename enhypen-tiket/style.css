@@ -1,0 +1,296 @@
+/* ================= Dasar ================= */
+
+*{ box-sizing: border-box; margin: 0; padding: 0; }
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  background: #fff7fa;
+  color: #4a3740;
+  line-height: 1.6;
+}
+
+.container{ max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+a{ color: inherit; }
+
+h1, h2, h3{ font-family: Arial, Helvetica, sans-serif; }
+
+/* ================= Navbar ================= */
+
+.site-header{
+  background: #ffffff;
+  border-bottom: 4px solid #e8a9c4;
+}
+
+.nav-bar{
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.brand{
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #4a3740;
+}
+
+.brand span{ color: #c76b91; }
+
+nav.main-nav ul{
+  list-style: none;
+  display: flex;
+  gap: 24px;
+}
+
+nav.main-nav a{
+  text-decoration: none;
+  color: #6b5660;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+nav.main-nav a:hover{ color: #c76b91; }
+
+/* Hamburger checkbox hack */
+.nav-toggle{ display: none; }
+.nav-toggle-label{ display: none; }
+
+/* ================= Tombol ================= */
+
+.btn{
+  display: inline-block;
+  background: #c76b91;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-block{ width: 100%; text-align: center; }
+
+/* ================= Hero ================= */
+
+.hero{
+  text-align: center;
+  background: #ffffff;
+  padding: 60px 20px;
+  border-bottom: 1px solid #efd5df;
+}
+
+.hero h1{
+  font-size: 2rem;
+  color: #4a3740;
+  margin-bottom: 10px;
+}
+
+.hero p{
+  color: #7a6670;
+  margin-bottom: 24px;
+}
+
+/* ================= Section ================= */
+
+.section{ padding: 48px 0; }
+
+.section h2{
+  font-size: 1.4rem;
+  color: #4a3740;
+  margin-bottom: 20px;
+  border-left: 5px solid #e8a9c4;
+  padding-left: 12px;
+}
+
+/* ================= Tabel Responsif ================= */
+
+.table-responsive{
+  overflow-x: auto;
+  border: 1px solid #efd5df;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px;
+}
+
+th, td{
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid #efd5df;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+th{
+  background: #f7dce7;
+  color: #c76b91;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+/* ================= Grid Kartu Tiket (3 -> 2 -> 1) ================= */
+
+.ticket-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.ticket-card{
+  background: #ffffff;
+  border: 1px solid #efd5df;
+  padding: 18px;
+}
+
+.swatch{
+  display: block;
+  width: 100%;
+  height: 8px;
+  margin-bottom: 12px;
+}
+
+.ticket-card h3{
+  font-size: 1.05rem;
+  color: #4a3740;
+  margin-bottom: 4px;
+}
+
+.ticket-card .type{
+  font-size: 0.82rem;
+  color: #8b747e;
+  margin-bottom: 10px;
+}
+
+.ticket-card .price{
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: #c76b91;
+}
+
+/* ================= List Benefit ================= */
+
+.benefit-list{
+  list-style: none;
+  max-width: 560px;
+}
+
+.benefit-list li{
+  padding: 10px 0 10px 22px;
+  border-bottom: 1px solid #f0d9e1;
+  position: relative;
+}
+
+.benefit-list li::before{
+  content: "\2022";
+  color: #c76b91;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+/* ================= Form ================= */
+
+.order-form{
+  max-width: 480px;
+  background: #ffffff;
+  border: 1px solid #efd5df;
+  padding: 24px;
+}
+
+.form-row{ margin-bottom: 16px; }
+
+.form-row label{
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.88rem;
+  font-weight: bold;
+}
+
+.form-row input,
+.form-row select{
+  width: 100%;
+  padding: 10px;
+  background: #fff7fa;
+  border: 1px solid #dfb8c8;
+  color: #4a3740;
+  font-size: 0.95rem;
+}
+
+/* ================= Footer ================= */
+
+.site-footer{
+  text-align: center;
+  padding: 24px 20px;
+  border-top: 4px solid #e8a9c4;
+  background: #ffffff;
+  color: #8b747e;
+  font-size: 0.8rem;
+}
+
+/* ================================================
+   MEDIA QUERY (desktop-first, ditaruh paling bawah)
+   ================================================ */
+
+/* Tablet */
+@media (max-width: 768px){
+  .ticket-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Mobile */
+@media (max-width: 480px){
+  .ticket-grid{ grid-template-columns: 1fr; }
+
+  .nav-toggle-label{
+    display: block;
+    width: 26px;
+    height: 20px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .nav-toggle-label span,
+  .nav-toggle-label::before,
+  .nav-toggle-label::after{
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #c76b91;
+  }
+
+  .nav-toggle-label span{ top: 8px; }
+  .nav-toggle-label::before{ top: 0; }
+  .nav-toggle-label::after{ top: 16px; }
+
+  nav.main-nav{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-bottom: 1px solid #efd5df;
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  nav.main-nav ul{
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 20px 12px;
+  }
+
+  nav.main-nav ul li{ border-top: 1px solid #f4e2e8; }
+  nav.main-nav ul li a{ display: block; padding: 12px 0; }
+
+  .nav-toggle:checked ~ nav.main-nav{ max-height: 300px; }
+}
