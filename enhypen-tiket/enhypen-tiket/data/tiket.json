@@ -1,0 +1,50 @@
+[
+  {
+    "nama": "VIP A & B",
+    "tipe": "Standing",
+    "harga": 3650000,
+    "warna": "#7a1f2b"
+  },
+  {
+    "nama": "CAT 1",
+    "tipe": "Numbered Seating",
+    "harga": 3450000,
+    "warna": "#a3697a"
+  },
+  {
+    "nama": "CAT 2 A, B & C",
+    "tipe": "Numbered Seating",
+    "harga": 3250000,
+    "warna": "#c08a52"
+  },
+  {
+    "nama": "CAT 3",
+    "tipe": "Numbered Seating",
+    "harga": 2950000,
+    "warna": "#5b7c92"
+  },
+  {
+    "nama": "CAT 4",
+    "tipe": "Numbered Seating",
+    "harga": 2750000,
+    "warna": "#c7a542"
+  },
+  {
+    "nama": "CAT 5",
+    "tipe": "Numbered Seating",
+    "harga": 2250000,
+    "warna": "#6f9270"
+  },
+  {
+    "nama": "CAT 6 A & B",
+    "tipe": "Numbered Seating",
+    "harga": 1850000,
+    "warna": "#6f5178"
+  },
+  {
+    "nama": "CAT 7 A & B",
+    "tipe": "Numbered Seating",
+    "harga": 1450000,
+    "warna": "#a9c3cf"
+  }
+]

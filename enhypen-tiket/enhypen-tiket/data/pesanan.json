@@ -1,0 +1,44 @@
+[
+  {
+    "nama": "Aulia Rahma",
+    "email": "aulia.rahma@email.com",
+    "kota": "Jakarta, Indonesia",
+    "kategori": "VIP A & B",
+    "jumlah": 2
+  },
+  {
+    "nama": "Bagas Pratama",
+    "email": "bagas.p@email.com",
+    "kota": "Jakarta, Indonesia",
+    "kategori": "CAT 2 A, B & C",
+    "jumlah": 1
+  },
+  {
+    "nama": "Citra Lestari",
+    "email": "citra.l@email.com",
+    "kota": "Singapura",
+    "kategori": "CAT 3",
+    "jumlah": 4
+  },
+  {
+    "nama": "Dimas Nugroho",
+    "email": "dimas.n@email.com",
+    "kota": "Bangkok, Thailand",
+    "kategori": "CAT 5",
+    "jumlah": 2
+  },
+  {
+    "nama": "Eka Putri",
+    "email": "eka.putri@email.com",
+    "kota": "Taipei, Taiwan",
+    "kategori": "CAT 1",
+    "jumlah": 3
+  },
+  {
+    "nama": "Fajar Ramadhan",
+    "email": "fajar.r@email.com",
+    "kota": "Jakarta, Indonesia",
+    "kategori": "CAT 7 A & B",
+    "jumlah": 1
+  }
+]

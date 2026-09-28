@@ -1,0 +1,58 @@
+[
+  {
+    "tanggal": "14 Mar 2026",
+    "kota": "Jakarta, Indonesia",
+    "venue": "GBK Main Stadium",
+    "kapasitas": 45000,
+    "harga_mulai": 950000,
+    "status": "open"
+  },
+  {
+    "tanggal": "21 Mar 2026",
+    "kota": "Bangkok, Thailand",
+    "venue": "Rajamangala Stadium",
+    "kapasitas": 50000,
+    "harga_mulai": 900000,
+    "status": "open"
+  },
+  {
+    "tanggal": "28 Mar 2026",
+    "kota": "Manila, Filipina",
+    "venue": "Philippine Arena",
+    "kapasitas": 38000,
+    "harga_mulai": 1050000,
+    "status": "soon"
+  },
+  {
+    "tanggal": "4 Apr 2026",
+    "kota": "Singapura",
+    "venue": "National Stadium",
+    "kapasitas": 30000,
+    "harga_mulai": 1400000,
+    "status": "soon"
+  },
+  {
+    "tanggal": "11 Apr 2026",
+    "kota": "Kuala Lumpur, Malaysia",
+    "venue": "Axiata Arena",
+    "kapasitas": 16000,
+    "harga_mulai": 1100000,
+    "status": "closed"
+  },
+  {
+    "tanggal": "18 Apr 2026",
+    "kota": "Ho Chi Minh City, Vietnam",
+    "venue": "Phu Tho Stadium",
+    "kapasitas": 25000,
+    "harga_mulai": 880000,
+    "status": "open"
+  },
+  {
+    "tanggal": "25 Apr 2026",
+    "kota": "Taipei, Taiwan",
+    "venue": "Taipei Arena",
+    "kapasitas": 15000,
+    "harga_mulai": 1200000,
+    "status": "open"
+  }
+]
