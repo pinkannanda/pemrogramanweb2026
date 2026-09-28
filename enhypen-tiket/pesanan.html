@@ -15,15 +15,13 @@
       <span class="brand-text">ENHYPEN<small>tiket konser</small></span>
     </a>
 
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
-    <label for="nav-toggle" class="nav-toggle-label" aria-label="Buka menu"><span></span></label>
+    <button type="button" class="nav-toggle" aria-label="Buka menu" aria-expanded="false"><span></span></button>
 
     <nav class="main-nav">
       <ul>
         <li><a href="index.html">Beranda</a></li>
         <li><a href="jadwal.html">Jadwal Tur</a></li>
         <li><a href="pesanan.html" class="active">Pesan Tiket</a></li>
-        <li><a href="index.html#tentang">Tentang</a></li>
       </ul>
     </nav>
   </div>
@@ -32,25 +30,25 @@
 <main class="container">
 
   <section class="section">
-    <div class="section-head" style="margin:0 auto 32px; text-align:center; max-width:520px;">
+    <div class="section-head section-head-center">
       <h2>Formulir Pemesanan</h2>
-      <p>Isi data berikut untuk memesan tiket. Ini formulir latihan statis, belum terhubung ke sistem pembayaran.</p>
+      <p>Isi data berikut untuk memesan tiket. Validasi berjalan di browser, belum diproses server.</p>
     </div>
 
-    <form class="order-card">
+    <form class="order-card" id="form-pesan" data-validasi>
       <div class="form-row">
         <label for="nama">Nama Lengkap</label>
-        <input type="text" id="nama" name="nama" placeholder="Nama sesuai KTP" required>
+        <input type="text" id="nama" name="nama" data-label="Nama lengkap" placeholder="Nama sesuai KTP" required>
       </div>
 
       <div class="form-grid-2">
         <div class="form-row">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="nama@email.com" required>
+          <input type="email" id="email" name="email" data-label="Email" placeholder="nama@email.com" required>
         </div>
         <div class="form-row">
           <label for="telepon">No. WhatsApp</label>
-          <input type="tel" id="telepon" name="telepon" placeholder="08xx-xxxx-xxxx" required>
+          <input type="tel" id="telepon" name="telepon" data-label="No. WhatsApp" placeholder="08xx-xxxx-xxxx" required>
         </div>
       </div>
 
@@ -70,31 +68,33 @@
         <div class="form-row">
           <label for="kategori">Kategori Tiket</label>
           <select id="kategori" name="kategori">
-            <option>VVIP Fate Club — Rp 4.500.000</option>
-            <option>VIP Premium — Rp 3.200.000</option>
-            <option>Category 1 — Rp 2.100.000</option>
-            <option>Category 2 — Rp 1.450.000</option>
-            <option>Category 3 — Rp 950.000</option>
-            <option>Festival Standing — Rp 1.800.000</option>
+            <option>VIP A &amp; B &mdash; Rp 3.650.000</option>
+            <option>CAT 1 &mdash; Rp 3.450.000</option>
+            <option>CAT 2 A, B &amp; C &mdash; Rp 3.250.000</option>
+            <option>CAT 3 &mdash; Rp 2.950.000</option>
+            <option>CAT 4 &mdash; Rp 2.750.000</option>
+            <option>CAT 5 &mdash; Rp 2.250.000</option>
+            <option>CAT 6 A &amp; B &mdash; Rp 1.850.000</option>
+            <option>CAT 7 A &amp; B &mdash; Rp 1.450.000</option>
           </select>
         </div>
       </div>
 
       <div class="form-row">
-        <label for="jumlah">Jumlah Tiket</label>
-        <input type="number" id="jumlah" name="jumlah" min="1" max="4" value="1">
+        <label for="jumlah">Jumlah Tiket (1–4)</label>
+        <input type="number" id="jumlah" name="jumlah" data-label="Jumlah tiket" min="1" max="4" required>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block">Lanjutkan Pemesanan</button>
+      <button type="submit" class="btn btn-block">Lanjutkan Pemesanan</button>
     </form>
   </section>
 
 </main>
 
-<footer class="site-footer container">
-  <p>ENHYPEN Tickets — proyek latihan tugas praktikum Pemrograman Web (Jobsheet 3, HTML/CSS responsif).</p>
-  <p>Formulir ini statis dan belum diproses server (akan ditambahkan pada jobsheet PHP berikutnya).</p>
+<footer class="site-footer">
+  <p>Validasi server-side akan ditambahkan pada Jobsheet 7.</p>
 </footer>
 
+<script src="assets/js/app.js" defer></script>
 </body>
 </html>

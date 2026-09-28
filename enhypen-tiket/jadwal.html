@@ -15,15 +15,13 @@
       <span class="brand-text">ENHYPEN<small>tiket konser</small></span>
     </a>
 
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
-    <label for="nav-toggle" class="nav-toggle-label" aria-label="Buka menu"><span></span></label>
+    <button type="button" class="nav-toggle" aria-label="Buka menu" aria-expanded="false"><span></span></button>
 
     <nav class="main-nav">
       <ul>
         <li><a href="index.html">Beranda</a></li>
         <li><a href="jadwal.html" class="active">Jadwal Tur</a></li>
         <li><a href="pesanan.html">Pesan Tiket</a></li>
-        <li><a href="index.html#tentang">Tentang</a></li>
       </ul>
     </nav>
   </div>
@@ -31,82 +29,67 @@
 
 <main class="container">
 
-  <section class="section" style="padding-bottom:0;">
+  <section class="section">
     <div class="section-head">
       <h2>Jadwal Tur 2026</h2>
       <p>Geser tabel ke samping di layar sempit untuk melihat semua kolom.</p>
     </div>
-  </section>
 
-  <section class="section" style="padding-top:0;">
+    <div class="search-box">
+      <input type="search" data-filter-tabel="#tabel-jadwal"
+             placeholder="Cari kota, venue, atau status..." aria-label="Cari jadwal">
+    </div>
+
     <div class="table-responsive">
-      <table class="schedule">
+      <table id="tabel-jadwal">
         <thead>
           <tr>
-            <th>Tanggal</th>
-            <th>Kota</th>
-            <th>Venue</th>
-            <th>Kapasitas</th>
-            <th>Harga Mulai</th>
-            <th>Status</th>
+            <th>Tanggal</th><th>Kota</th><th>Venue</th><th>Kapasitas</th>
+            <th>Harga Mulai</th><th>Status</th><th>Aksi</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>14 Mar 2026</td>
-            <td>Jakarta, Indonesia</td>
-            <td>GBK Main Stadium</td>
-            <td>45.000</td>
-            <td>Rp 950.000</td>
+            <td>14 Mar 2026</td><td>Jakarta, Indonesia</td><td>GBK Main Stadium</td>
+            <td>45.000</td><td>Rp 950.000</td>
             <td><span class="status-pill status-open">Tiket Tersedia</span></td>
+            <td><button type="button" class="btn-hapus" data-nama="jadwal Jakarta">Hapus</button></td>
           </tr>
           <tr>
-            <td>21 Mar 2026</td>
-            <td>Bangkok, Thailand</td>
-            <td>Rajamangala Stadium</td>
-            <td>50.000</td>
-            <td>Rp 900.000</td>
+            <td>21 Mar 2026</td><td>Bangkok, Thailand</td><td>Rajamangala Stadium</td>
+            <td>50.000</td><td>Rp 900.000</td>
             <td><span class="status-pill status-open">Tiket Tersedia</span></td>
+            <td><button type="button" class="btn-hapus" data-nama="jadwal Bangkok">Hapus</button></td>
           </tr>
           <tr>
-            <td>28 Mar 2026</td>
-            <td>Manila, Filipina</td>
-            <td>Philippine Arena</td>
-            <td>38.000</td>
-            <td>Rp 1.050.000</td>
+            <td>28 Mar 2026</td><td>Manila, Filipina</td><td>Philippine Arena</td>
+            <td>38.000</td><td>Rp 1.050.000</td>
             <td><span class="status-pill status-soon">Segera Dibuka</span></td>
+            <td><button type="button" class="btn-hapus" data-nama="jadwal Manila">Hapus</button></td>
           </tr>
           <tr>
-            <td>4 Apr 2026</td>
-            <td>Singapura</td>
-            <td>National Stadium</td>
-            <td>30.000</td>
-            <td>Rp 1.400.000</td>
+            <td>4 Apr 2026</td><td>Singapura</td><td>National Stadium</td>
+            <td>30.000</td><td>Rp 1.400.000</td>
             <td><span class="status-pill status-soon">Segera Dibuka</span></td>
+            <td><button type="button" class="btn-hapus" data-nama="jadwal Singapura">Hapus</button></td>
           </tr>
           <tr>
-            <td>11 Apr 2026</td>
-            <td>Kuala Lumpur, Malaysia</td>
-            <td>Axiata Arena</td>
-            <td>16.000</td>
-            <td>Rp 1.100.000</td>
+            <td>11 Apr 2026</td><td>Kuala Lumpur, Malaysia</td><td>Axiata Arena</td>
+            <td>16.000</td><td>Rp 1.100.000</td>
             <td><span class="status-pill status-closed">Habis Terjual</span></td>
+            <td><button type="button" class="btn-hapus" data-nama="jadwal Kuala Lumpur">Hapus</button></td>
           </tr>
           <tr>
-            <td>18 Apr 2026</td>
-            <td>Ho Chi Minh City, Vietnam</td>
-            <td>Phu Tho Stadium</td>
-            <td>25.000</td>
-            <td>Rp 880.000</td>
+            <td>18 Apr 2026</td><td>Ho Chi Minh City, Vietnam</td><td>Phu Tho Stadium</td>
+            <td>25.000</td><td>Rp 880.000</td>
             <td><span class="status-pill status-open">Tiket Tersedia</span></td>
+            <td><button type="button" class="btn-hapus" data-nama="jadwal Ho Chi Minh City">Hapus</button></td>
           </tr>
           <tr>
-            <td>25 Apr 2026</td>
-            <td>Taipei, Taiwan</td>
-            <td>Taipei Arena</td>
-            <td>15.000</td>
-            <td>Rp 1.200.000</td>
+            <td>25 Apr 2026</td><td>Taipei, Taiwan</td><td>Taipei Arena</td>
+            <td>15.000</td><td>Rp 1.200.000</td>
             <td><span class="status-pill status-open">Tiket Tersedia</span></td>
+            <td><button type="button" class="btn-hapus" data-nama="jadwal Taipei">Hapus</button></td>
           </tr>
         </tbody>
       </table>
@@ -115,10 +98,10 @@
 
 </main>
 
-<footer class="site-footer container">
-  <p>ENHYPEN Tickets — proyek latihan tugas praktikum Pemrograman Web (Jobsheet 3, HTML/CSS responsif).</p>
-  <p>Tanggal, kota, dan harga bersifat fiktif untuk keperluan latihan, bukan informasi tur resmi.</p>
+<footer class="site-footer">
+  <p>Hapus di halaman ini hanya menghilangkan baris dari tampilan, belum ke server.</p>
 </footer>
 
+<script src="assets/js/app.js" defer></script>
 </body>
 </html>
