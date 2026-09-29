@@ -51,6 +51,15 @@ th{ background: #f7dce7; color: #c76b91; text-transform: uppercase; font-size: .
 .search-box{ margin-bottom: 16px; }
 .search-box input{ width: 100%; max-width: 360px; padding: 10px; background: #fff7fa; border: 1px solid #dfb8c8; font-size: .95rem; margin-bottom: 8px; }
 
+/* ===== KARTU STATISTIK (Jobsheet 8) ===== */
+.stat-grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 480px; }
+.stat-card{
+  background: #fff; border: 1px solid #efd5df; padding: 24px;
+  text-align: center; display: flex; flex-direction: column; gap: 4px;
+}
+.stat-angka{ font-size: 2rem; font-weight: bold; color: #c76b91; }
+.stat-label{ font-size: .85rem; color: #8b747e; text-transform: uppercase; }
+
 /* ===== KARTU TIKET ===== */
 .ticket-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .ticket-card{ background: #fff; border: 1px solid #efd5df; padding: 18px; }
@@ -72,6 +81,15 @@ th{ background: #f7dce7; color: #c76b91; text-transform: uppercase; font-size: .
 .form-grid-2{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .pesan-error{ display: block; margin-top: 4px; color: #c0392b; font-size: .8rem; }
 .input-error{ border-color: #c0392b !important; background: #fff0f0 !important; }
+
+/* ===== FLASH MESSAGE (Jobsheet 7) ===== */
+/* Konvensi warna: hijau = sukses, merah = gagal/error. */
+.flash{
+  padding: 12px 16px; margin-bottom: 16px;
+  border-radius: 4px; font-size: .9rem; font-weight: bold;
+}
+.flash-sukses{ background: #e3f3e6; color: #2e7d32; border: 1px solid #b7e0bd; }
+.flash-error{ background: #fde2e2; color: #c0392b; border: 1px solid #f3b8b8; }
 
 /* ===== LOADING & ERROR FETCH (Jobsheet 6) ===== */
 .loading{ padding: 12px 0; color: #8b747e; font-style: italic; }

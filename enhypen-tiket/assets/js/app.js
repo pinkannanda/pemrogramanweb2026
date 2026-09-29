@@ -1,39 +1,17 @@
 "use strict";
 
-/* ===== Pembantu bersama (Jobsheet 6) ===== */
-const DELAY_SIMULASI = 600; // ms, agar "Memuat data..." sempat terlihat
-function tunda(ms) {
-  return new Promise(function (selesai) { setTimeout(selesai, ms); });
-}
-
-function buatSel(teks) {
-  const td = document.createElement("td");
-  td.textContent = teks; // textContent: aman dari injeksi HTML
-  return td;
-}
-
-function buatSelHapus(nama) {
-  const td = document.createElement("td");
-  const tombol = document.createElement("button");
-  tombol.type = "button";
-  tombol.className = "btn-hapus";
-  tombol.dataset.nama = nama;
-  tombol.textContent = "Hapus";
-  td.append(tombol);
-  return td;
-}
-
-function pesanTabel(tbody, jumlahKolom, pesan) {
-  const tr = document.createElement("tr");
-  const td = document.createElement("td");
-  td.colSpan = jumlahKolom;
-  td.className = "pesan-gagal";
-  td.textContent = pesan;
-  tr.append(td);
-  tbody.append(tr);
-}
-
-/* ===== Jobsheet 5 ===== */
+/*
+ * Jobsheet 7: rendering tabel sekarang dikerjakan PHP di server
+ * (lihat jadwal/list.php dan pesanan/list.php), bukan lagi oleh
+ * fetch() + JavaScript seperti Jobsheet 6. Karena itu helper
+ * pembuat baris tabel (buatSel, buatSelHapus, pesanTabel, tunda)
+ * yang dulu ada di file ini sudah tidak dipakai lagi dan dihapus.
+ *
+ * Validasi di file ini TETAP dipakai sebagai lapisan pertama (cepat
+ * terasa oleh pengguna), tapi TIDAK BISA DIANDALKAN SENDIRIAN, karena
+ * bisa dilewati dengan menonaktifkan JavaScript. Validasi yang
+ * benar-benar mengikat ada di proses_tambah.php (server-side).
+ */
 
 /* 1. Hamburger menu */
 function initHamburger() {
@@ -46,7 +24,7 @@ function initHamburger() {
   });
 }
 
-/* 2. Validasi form client-side */
+/* 2. Validasi form client-side (lapisan pertama, boleh dilewati) */
 function hapusError(form) {
   form.querySelectorAll(".pesan-error").forEach(function (el) { el.remove(); });
   form.querySelectorAll(".input-error").forEach(function (el) { el.classList.remove("input-error"); });
@@ -74,7 +52,7 @@ function validasiField(field) {
   if (field.type === "tel" && !/^\+?[0-9\s-]{9,15}$/.test(nilai)) {
     return "No. WhatsApp harus 9-15 digit angka.";
   }
-  if (field.type === "date") {   // format YYYY-MM-DD bisa dibandingkan sebagai teks
+  if (field.type === "date") {
     if (field.min && nilai < field.min) return label + " tidak boleh sebelum " + field.min + ".";
     if (field.max && nilai > field.max) return label + " tidak boleh setelah " + field.max + ".";
   }
@@ -94,7 +72,6 @@ function initValidasiForm() {
     form.setAttribute("novalidate", "");
 
     form.addEventListener("submit", function (e) {
-      e.preventDefault(); // belum ada server, submit selalu ditahan
       hapusError(form);
       let pertama = null;
 
@@ -107,11 +84,13 @@ function initValidasiForm() {
       });
 
       if (pertama) {
+        // Ada error di browser: batalkan submit, jangan sampai ke server.
+        e.preventDefault();
         pertama.focus();
-      } else {
-        alert("Data valid! (Belum dikirim ke server.)");
-        form.reset();
       }
+      // PENTING (Jobsheet 7): kalau TIDAK ada error, JANGAN preventDefault.
+      // Biarkan form benar-benar ter-submit (POST) ke action="proses_tambah.php".
+      // Validasi server di sana yang memutuskan final, bukan JS ini.
     });
 
     form.addEventListener("input", function (e) {
@@ -137,9 +116,7 @@ function initTableFilter() {
   });
 }
 
-/* 4. Tombol Hapus: EVENT DELEGATION.
-   Listener dipasang di document, bukan di tiap tombol, sehingga tombol
-   yang dibuat belakangan oleh fetch() tetap berfungsi (Jobsheet 6). */
+/* 4. Tombol Hapus: masih front-end saja (confirm() lalu hapus dari tampilan). */
 function initHapusConfirm() {
   document.addEventListener("click", function (e) {
     const tombol = e.target.closest(".btn-hapus");
