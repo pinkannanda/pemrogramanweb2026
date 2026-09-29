@@ -1,6 +1,6 @@
 <?php
 
-$host = "127.0.0.1";
+$host = "localhost";
 $port = "5432";
 $db   = "dbtiket_enhypen";
 $user = "postgres";
@@ -15,6 +15,9 @@ try {
 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    echo "KONEKSI BERHASIL<br>";
+    echo "Database: " . $db;
 } catch (PDOException $e) {
-    die("Koneksi database gagal: " . $e->getMessage());
+    echo "KONEKSI GAGAL<br>";
+    echo $e->getMessage();
 }
