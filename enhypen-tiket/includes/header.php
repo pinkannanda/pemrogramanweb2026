@@ -2,43 +2,93 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+$isLoggedIn = isset($_SESSION['user']);
+$username = $isLoggedIn ? $_SESSION['user']['username'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesan Tiket — ENHYPEN Tickets</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?= isset($pageTitle) ? h($pageTitle) . ' - ' : '' ?>ENHYPEN Konser</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <style>
+    /* Style Navbar Responsive */
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .nav-menu {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
+    }
+    .nav-menu a {
+      text-decoration: none;
+      color: #555;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .nav-menu a.active, .nav-menu a:hover {
+      color: #8b263e;
+      border-bottom: 2px solid #8b263e;
+    }
+    @media (max-width: 768px) {
+      .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav-menu {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 8px;
+      }
+      .nav-menu a {
+        font-size: 0.85rem;
+        padding: 5px 8px;
+      }
+    }
+  </style>
 </head>
-<body>
-    <header style="background: #ffffff; border-bottom: 2px solid #f3d7e4; padding: 12px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.05); font-family: sans-serif;">
-        <!-- Logo ENHYPEN -->
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="background: #b85b84; color: #ffffff; font-weight: bold; padding: 6px 10px; border-radius: 6px; font-size: 14px; display: inline-block;">EN</span>
-            <div style="display: flex; flex-direction: column; line-height: 1.2;">
-                <strong style="color: #333333; font-size: 16px; letter-spacing: 0.5px;">ENHYPEN</strong>
-                <small style="color: #888888; font-size: 10px; font-weight: 600; letter-spacing: 1px;">TIKET KONSER</small>
-            </div>
-        </div>
+<body style="background-color: #fff0f3; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
 
-        <!-- Menu Navigasi & User Info -->
-        <nav style="display: flex; align-items: center; gap: 20px;">
-            <a href="/" style="text-decoration: none; color: #555555; font-weight: 600; font-size: 14px; transition: color 0.2s;">Beranda</a>
-            <a href="/jadwal/list.php" style="text-decoration: none; color: #555555; font-weight: 600; font-size: 14px; transition: color 0.2s;">Jadwal Tur</a>
-            <a href="/pesanan/list.php" style="text-decoration: none; color: #b85b84; font-weight: 700; font-size: 14px; border-bottom: 2px solid #b85b84; padding-bottom: 2px;">Pesanan</a>
-            <a href="/pesanan/tambah.php" style="text-decoration: none; color: #555555; font-weight: 600; font-size: 14px; transition: color 0.2s;">Pesan Tiket</a>
-            
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <div style="display: flex; align-items: center; gap: 12px; margin-left: 15px; padding-left: 15px; border-left: 1px solid #e0e0e0;">
-                    <span style="background: #fdf0f5; color: #b85b84; font-weight: 700; font-size: 13px; padding: 6px 12px; border-radius: 20px; border: 1px solid #f3d7e4;">
-                        Hi, <?= htmlspecialchars($_SESSION['nama'] ?? $_SESSION['username']) ?>
-                    </span>
-                    <a href="/auth/logout.php" style="text-decoration: none; color: #dc3545; font-weight: 700; font-size: 13px; background: #fff0f0; padding: 6px 12px; border-radius: 6px; border: 1px solid #f8d7da; transition: all 0.2s;">Logout</a>
-                </div>
-            <?php else: ?>
-                <a href="/auth/login.php" style="text-decoration: none; color: #ffffff; background: #b85b84; font-weight: 600; font-size: 13px; padding: 6px 16px; border-radius: 6px;">Login</a>
-            <?php endif; ?>
-        </nav>
-    </header>
+<header style="background: #ffffff; border-bottom: 1px solid #f8d7da;">
+  <div class="navbar-container" style="max-width: 1100px; margin: 0 auto;">
+    <a href="/index.php" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+      <div style="background-color: #c94a6e; color: #fff; font-weight: bold; padding: 6px 12px; border-radius: 8px; font-size: 1.1rem;">EN</div>
+      <div>
+        <div style="color: #333; font-weight: 800; font-size: 1.1rem; line-height: 1;">ENHYPEN</div>
+        <div style="color: #777; font-size: 0.75rem; letter-spacing: 1px;">TIKET KONSER</div>
+      </div>
+    </a>
+
+    <ul class="nav-menu">
+      <li><a href="/index.php" class="<?= ($activePage ?? '') === 'beranda' ? 'active' : '' ?>">Beranda</a></li>
+      <li><a href="/jadwal/list.php" class="<?= ($activePage ?? '') === 'jadwal' ? 'active' : '' ?>">Jadwal Tur</a></li>
+      <li><a href="/pesanan/list.php" class="<?= ($activePage ?? '') === 'pesanan' ? 'active' : '' ?>">Pesanan</a></li>
+      <li><a href="/pesanan/tambah.php" class="<?= ($activePage ?? '') === 'pesan_tiket' ? 'active' : '' ?>">Pesan Tiket</a></li>
+      
+      <?php if ($isLoggedIn): ?>
+        <li style="background-color: #fce4ec; color: #8b263e; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+          Hi, <?= h($username) ?>
+        </li>
+        <li><a href="/auth/logout.php" style="background-color: #c94a6e; color: #fff; padding: 6px 14px; border-radius: 8px; border-bottom: none;">Logout</a></li>
+      <?php else: ?>
+        <li><a href="/auth/login.php" style="background-color: #c94a6e; color: #fff; padding: 6px 14px; border-radius: 8px; border-bottom: none;">Login</a></li>
+      <?php endif; ?>
+    </ul>
+  </div>
+</header>
