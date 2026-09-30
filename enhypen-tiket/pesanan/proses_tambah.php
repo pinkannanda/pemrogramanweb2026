@@ -8,7 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Tangkap input POST dengan fallback fleksibel
 $nama     = trim($_POST['nama_pemesan'] ?? $_POST['nama'] ?? '');
 $email    = trim($_POST['email'] ?? '');
 $telepon  = trim($_POST['telepon'] ?? $_POST['no_wa'] ?? '');
@@ -17,54 +16,46 @@ $kategori = trim($_POST['kategori'] ?? '');
 $jumlah   = (int) ($_POST['jumlah'] ?? $_POST['jumlah_tiket'] ?? 1);
 
 if ($nama === '' || $email === '' || $telepon === '' || $kota === '' || $kategori === '') {
-    simpanOldInput($_POST);
     setFlash('danger', 'Harap isi semua kolom formulir.');
     header('Location: tambah.php');
     exit;
 }
 
 try {
-    // Query INSERT mencoba menyimpan baik ke kolom nama_pemesan maupun nama
-    $stmt = $pdo->prepare('
-        INSERT INTO pesanan (nama_pemesan, nama, email, telepon, kota, kategori, jumlah)
-        VALUES (:nama_p, :nama, :email, :telepon, :kota, :kategori, :jumlah)
-    ');
-
-    $stmt->execute([
-        'nama_p'   => $nama,
-        'nama'     => $nama,
-        'email'    => $email,
-        'telepon'  => $telepon,
-        'kota'     => $kota,
-        'kategori' => $kategori,
-        'jumlah'   => $jumlah
-    ]);
-
-    setFlash('success', 'Pesanan tiket berhasil ditambahkan.');
-    header('Location: list.php');
-    exit;
-} catch (PDOException $e) {
-    // Jika kolom 'nama' atau 'nama_pemesan' tidak ada di tabel DB, jalankan versi umum
     try {
         $stmt = $pdo->prepare('
             INSERT INTO pesanan (nama_pemesan, email, telepon, kota, kategori, jumlah)
-            VALUES (:nama_p, :email, :telepon, :kota, :kategori, :jumlah)
+            VALUES (:nama, :email, :telepon, :kota, :kategori, :jumlah)
         ');
         $stmt->execute([
-            'nama_p'   => $nama,
+            'nama'     => $nama,
             'email'    => $email,
             'telepon'  => $telepon,
             'kota'     => $kota,
             'kategori' => $kategori,
             'jumlah'   => $jumlah
         ]);
-        setFlash('success', 'Pesanan tiket berhasil ditambahkan.');
-        header('Location: list.php');
-        exit;
-    } catch (PDOException $ex) {
-        simpanOldInput($_POST);
-        setFlash('danger', 'Gagal menyimpan pesanan: ' . $ex->getMessage());
-        header('Location: tambah.php');
-        exit;
+    } catch (PDOException $e) {
+        $stmt = $pdo->prepare('
+            INSERT INTO pesanan (nama, email, telepon, kota, kategori, jumlah)
+            VALUES (:nama, :email, :telepon, :kota, :kategori, :jumlah)
+        ');
+        $stmt->execute([
+            'nama'     => $nama,
+            'email'    => $email,
+            'telepon'  => $telepon,
+            'kota'     => $kota,
+            'kategori' => $kategori,
+            'jumlah'   => $jumlah
+        ]);
     }
+
+    setFlash('success', 'Pesanan tiket berhasil ditambahkan.');
+    header('Location: list.php');
+    exit;
+
+} catch (PDOException $ex) {
+    setFlash('danger', 'Gagal menyimpan pesanan: ' . $ex->getMessage());
+    header('Location: tambah.php');
+    exit;
 }

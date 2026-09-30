@@ -59,6 +59,18 @@ function kodeStatus(string $label): string
     return $peta[$label] ?? 'open';
 }
 
+/** Simpan pesanan flash message ke session. */
+function setFlash(string $type, string $pesan): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $_SESSION['flash'] = [
+        'type'  => $type,
+        'pesan' => $pesan
+    ];
+}
+
 /**
  * Ambil flash message dari session lalu langsung hapus
  * (pola "sekali tampil"). Return null kalau tidak ada.
@@ -71,6 +83,15 @@ function ambilFlash(): ?array
         return $flash;
     }
     return null;
+}
+
+/** Simpan input lama ke session agar form tidak hilang saat error validation. */
+function simpanOldInput(array $data): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $_SESSION['old'] = $data;
 }
 
 /**
