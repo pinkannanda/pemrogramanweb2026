@@ -55,17 +55,17 @@ include __DIR__ . '/../includes/header.php';
   </form>
 
   <!-- Tabel Jadwal -->
-  <div class="table-responsive">
-    <table>
+  <div style="width: 100%; overflow-x: auto; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 15px rgba(139,38,62,0.08); border: 1px solid #f8d7da; margin-bottom: 25px;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 650px;">
       <thead>
-        <tr>
-          <th>Tanggal</th>
-          <th>Kota</th>
-          <th>Venue</th>
-          <th>Kapasitas</th>
-          <th>Harga Mulai</th>
-          <th>Status</th>
-          <th>Aksi</th>
+        <tr style="background-color: #f8d7da; color: #8b263e;">
+          <th style="padding: 14px 16px; font-size: 0.85rem; text-transform: uppercase;">Tanggal</th>
+          <th style="padding: 14px 16px; font-size: 0.85rem; text-transform: uppercase;">Kota</th>
+          <th style="padding: 14px 16px; font-size: 0.85rem; text-transform: uppercase;">Venue</th>
+          <th style="padding: 14px 16px; font-size: 0.85rem; text-transform: uppercase;">Kapasitas</th>
+          <th style="padding: 14px 16px; font-size: 0.85rem; text-transform: uppercase;">Harga Mulai</th>
+          <th style="padding: 14px 16px; font-size: 0.85rem; text-transform: uppercase;">Status</th>
+          <th style="padding: 14px 16px; font-size: 0.85rem; text-transform: uppercase;">Aksi</th>
         </tr>
       </thead>
       <tbody>
@@ -77,20 +77,32 @@ include __DIR__ . '/../includes/header.php';
           </tr>
         <?php else: ?>
           <?php foreach ($jadwalList as $row): ?>
-            <tr>
-              <td><?= date('d M Y', strtotime($row['tanggal'])) ?></td>
-              <td><strong><?= h($row['kota']) ?></strong></td>
-              <td><?= h($row['venue']) ?></td>
-              <td><?= number_format((int)$row['kapasitas'], 0, ',', '.') ?></td>
-              <td><?= formatRupiah((int)$row['harga_mulai']) ?></td>
-              <td>
-                <span class="user-greeting" style="background-color: #e2f0d9; color: #2e7d32;">
+            <tr style="border-bottom: 1px solid #f2d6dc;">
+              <td style="padding: 14px 16px; font-size: 0.95rem;">
+                <?= !empty($row['tanggal']) ? date('d M Y', strtotime($row['tanggal'])) : '-' ?>
+              </td>
+              <td style="padding: 14px 16px; font-size: 0.95rem;">
+                <strong><?= h($row['kota'] ?? '-') ?></strong>
+              </td>
+              <td style="padding: 14px 16px; font-size: 0.95rem;">
+                <?= h($row['venue'] ?? '-') ?>
+              </td>
+              <td style="padding: 14px 16px; font-size: 0.95rem;">
+                <?= number_format((int)($row['kapasitas'] ?? 0), 0, ',', '.') ?>
+              </td>
+              <td style="padding: 14px 16px; font-size: 0.95rem;">
+                <?= formatRupiah((int)($row['harga_mulai'] ?? 0)) ?>
+              </td>
+              <td style="padding: 14px 16px; font-size: 0.95rem;">
+                <span style="background-color: #fce4ec; color: #8b263e; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">
                   <?= h($row['status'] ?? 'Tersedia') ?>
                 </span>
               </td>
-              <td class="aksi-cell">
-                <a href="edit.php?id=<?= $row['id'] ?>" class="btn-aksi btn-edit">Edit</a>
-                <a href="hapus.php?id=<?= $row['id'] ?>" class="btn-aksi btn-hapus" onclick="return confirm('Yakin ingin menghapus jadwal ini?')">Hapus</a>
+              <td style="padding: 14px 16px; font-size: 0.95rem;">
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <a href="edit.php?id=<?= $row['id'] ?>" style="color: #c94a6e; text-decoration: none; font-weight: 600; border: 1px solid #c94a6e; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem;">Edit</a>
+                  <a href="hapus.php?id=<?= $row['id'] ?>" style="color: #d9534f; text-decoration: none; font-weight: 600; border: 1px solid #d9534f; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem;" onclick="return confirm('Yakin ingin menghapus jadwal ini?')">Hapus</a>
+                </div>
               </td>
             </tr>
           <?php endforeach; ?>
