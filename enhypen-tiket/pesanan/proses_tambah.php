@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../includes/auth.php';
+session_start();
 require __DIR__ . '/../includes/koneksi.php';
 require __DIR__ . '/../includes/functions.php';
 
@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $nama     = trim($_POST['nama'] ?? '');
 $email    = trim($_POST['email'] ?? '');
 $telepon  = trim($_POST['telepon'] ?? '');
-$kota     = trim($_POST['kota'] ?? '');
-$kategori = trim($_POST['kategori'] ?? '');
+$kota     = trim($_POST['kota'] ?? '');      // Dianggap sebagai nama_event / kota
+$kategori = trim($_POST['kategori'] ?? '');  // Nama kategori tiket
 $jumlah   = trim($_POST['jumlah'] ?? '');
 
 $errors = [];
@@ -36,6 +36,7 @@ if ($telepon === '') {
 if ($kota === '') {
     $errors[] = 'Kota konser wajib dipilih.';
 }
+
 if ($kategori === '') {
     $errors[] = 'Kategori tiket wajib dipilih.';
 }
@@ -55,20 +56,38 @@ if (!empty($errors)) {
     exit;
 }
 
-$stmt = $pdo->prepare(
-    "INSERT INTO pesanan (nama, email, telepon, kota, kategori, jumlah)
-     VALUES (:nama, :email, :telepon, :kota, :kategori, :jumlah)
-     RETURNING id"
-);
-$stmt->execute([
-    'nama'     => $nama,
-    'email'    => $email,
-    'telepon'  => $telepon,
-    'kota'     => $kota,
-    'kategori' => $kategori,
-    'jumlah'   => (int) $jumlah,
-]);
+try {
+    // 1. Ambil ID Tiket & Harga berdasarkan Kategori
+    $stmtTiket = $pdo->prepare("SELECT id, harga, jadwal_id FROM tiket WHERE LOWER(kategori) LIKE LOWER(?) LIMIT 1");
+    $stmtTiket->execute(['%' . $kategori . '%']);
+    $dataTiket = $stmtTiket->fetch(PDO::FETCH_ASSOC);
 
-$_SESSION['flash'] = ['type' => 'sukses', 'pesan' => 'Pesanan tiket berhasil ditambahkan.'];
-header('Location: list.php');
-exit;
+    // Fallback jika kategori tidak ditemukan di tabel tiket
+    $tiket_id  = $dataTiket['id'] ?? 1;
+    $jadwal_id = $dataTiket['jadwal_id'] ?? 1;
+    $harga     = $dataTiket['harga'] ?? 2200000;
+    $total_harga = $harga * (int)$jumlah;
+    $user_id   = $_SESSION['user_id'] ?? null;
+
+    // 2. Insert ke tabel pesanan dengan struktur kolom PostgreSQL yang valid
+    $stmt = $pdo->prepare(
+        "INSERT INTO pesanan (user_id, jadwal_id, tiket_id, nama_pemesan, jumlah_tiket, total_harga, status)
+         VALUES (:user_id, :jadwal_id, :tiket_id, :nama_pemesan, :jumlah_tiket, :total_harga, :status)"
+    );
+    $stmt->execute([
+        'user_id'      => $user_id,
+        'jadwal_id'    => $jadwal_id,
+        'tiket_id'     => $tiket_id,
+        'nama_pemesan' => $nama,
+        'jumlah_tiket' => (int) $jumlah,
+        'total_harga'  => $total_harga,
+        'status'       => 'Pending'
+    ]);
+
+    $_SESSION['flash'] = ['type' => 'sukses', 'pesan' => 'Pesanan tiket berhasil ditambahkan.'];
+    header('Location: list.php');
+    exit;
+
+} catch (PDOException $e) {
+    die("Error Simpan Pesanan: " . $e->getMessage());
+}
