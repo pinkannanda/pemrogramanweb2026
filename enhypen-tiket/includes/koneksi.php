@@ -23,10 +23,10 @@ if ($database_url) {
     }
 } else {
     // Lingkungan Localhost (Fallback)
-    $host     = '127.0.0.1';
+    $host     = 'ep-weathered-mountain-b5da5jwy-pooler.c-7.us-east-2.aws.neon.tech';
     $dbname   = 'neondb';
-    $user     = 'postgres';
-    $password = 'secret';
+    $user     = 'neondb_owner';
+    $password = 'npg_rfGHLPaNx20y';
 
     try {
         $dsn = "pgsql:host=$host;dbname=$dbname";
