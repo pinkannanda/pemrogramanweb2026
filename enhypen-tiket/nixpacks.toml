@@ -1,0 +1,5 @@
+[providers]
+providers = ['php']
+
+[phase.setup]
+nixPkgs = ['php', 'phpPackages.composer', 'phpExtensions.pdo_pgsql', 'phpExtensions.pgsql']
