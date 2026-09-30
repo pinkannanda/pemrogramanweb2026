@@ -23,8 +23,8 @@ include __DIR__ . '/../includes/header.php';
 
     <form class="order-card" action="proses_tambah.php" method="post" data-validasi>
       <div class="form-row">
-        <label for="nama">Nama Lengkap</label>
-        <input type="text" id="nama" name="nama" data-label="Nama lengkap" placeholder="Masukkan nama lengkap" value="<?= h(old($old, 'nama')) ?>" required>
+        <label for="nama_pemesan">Nama Lengkap</label>
+        <input type="text" id="nama_pemesan" name="nama_pemesan" data-label="Nama lengkap" placeholder="Masukkan nama lengkap" value="<?= h(old($old, 'nama_pemesan') ?: old($old, 'nama')) ?>" required>
       </div>
 
       <div class="form-row">
