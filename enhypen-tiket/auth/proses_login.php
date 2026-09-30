@@ -21,11 +21,20 @@ if ($username === '' || $password === '') {
 }
 
 try {
+    // Cari user berdasarkan username
     $stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
     $stmt->execute(['username' => $username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$user || !password_verify($password, $user['password'])) {
+    // Verifikasi: dukung password hash BCRYPT ATAU password teks biasa
+    $is_password_valid = false;
+    if ($user) {
+        if (password_verify($password, $user['password']) || $password === $user['password']) {
+            $is_password_valid = true;
+        }
+    }
+
+    if (!$user || !$is_password_valid) {
         $_SESSION['flash'] = [
             'type' => 'error',
             'pesan' => 'Username atau password salah.'
@@ -45,7 +54,6 @@ try {
         'pesan' => 'Selamat datang kembali, ' . $nama_user . '!'
     ];
 
-    // Redirect aman untuk Railway & Localhost
     header('Location: ../index.php');
     exit;
 
