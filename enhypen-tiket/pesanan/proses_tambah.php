@@ -1,5 +1,5 @@
 <?php
-session_start();
+require __DIR__ . '/../includes/auth.php';
 require __DIR__ . '/../includes/koneksi.php';
 require __DIR__ . '/../includes/functions.php';
 
@@ -55,11 +55,6 @@ if (!empty($errors)) {
     exit;
 }
 
-// Catatan: kolom email diberi UNIQUE di sql/01_jadwal_pesanan.sql.
-// Kalau dicoba pakai email yang sudah pernah dipakai, baris di bawah
-// akan melempar PDOException mentah — INI SENGAJA belum ditangani
-// rapi, sesuai bab 7.3 poin terakhir. Penanganannya (try/catch) ada
-// di latihan bab 7.4 poin 1, menyusul kalau kamu sudah siap.
 $stmt = $pdo->prepare(
     "INSERT INTO pesanan (nama, email, telepon, kota, kategori, jumlah)
      VALUES (:nama, :email, :telepon, :kota, :kategori, :jumlah)
