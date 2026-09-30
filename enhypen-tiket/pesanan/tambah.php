@@ -36,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($jumlah < 1 || $jumlah > 4) {
         $error = 'Maksimal pembelian adalah 4 tiket per transaksi.';
     } else {
-        // Cari harga tiket dari JSON
         $hargaSatuan = 0;
         foreach ($tiketList as $t) {
             if (($t['nama'] ?? '') === $kategori) {
@@ -64,7 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: list.php');
             exit;
         } catch (PDOException $e) {
-            $error = 'Gagal menyimpan pesanan. Silakan coba lagi.';
+            // Menampilkan pesan error MySQL agar mudah didebug
+            $error = 'Gagal menyimpan pesanan: ' . $e->getMessage();
         }
     }
 }
@@ -84,7 +84,7 @@ include __DIR__ . '/../includes/header.php';
     <?php endif; ?>
 
     <?php if ($error !== ''): ?>
-      <div class="flash flash-danger" style="margin-bottom: 15px; padding: 10px; color: #a94442; background-color: #f2dede; border-radius: 6px;">
+      <div class="flash flash-danger" style="margin-bottom: 15px; padding: 10px; color: #a94442; background-color: #f2dede; border-radius: 6px; font-size: 0.9rem;">
         <?= h($error) ?>
       </div>
     <?php endif; ?>
