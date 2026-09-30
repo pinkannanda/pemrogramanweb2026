@@ -24,8 +24,9 @@ body {
   padding: 0 20px;
 }
 
-main.container {
+main {
   flex: 1;
+  padding-bottom: 40px;
 }
 
 /* ===================================================
@@ -116,141 +117,145 @@ header {
   gap: 12px;
 }
 
-.user-greeting {
-  background-color: #fce4ec;
-  color: #8b263e;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
 /* ===================================================
-   HERO & BERANDA (HOME)
+   HERO & BERANDA (INDEX)
    =================================================== */
-.hero-section {
+.hero {
   text-align: center;
-  padding: 50px 20px;
+  padding: 60px 20px;
   background: linear-gradient(135deg, #ffffff 0%, #ffe3e8 100%);
-  border-radius: 16px;
-  margin: 30px 0;
+  border-radius: 0 0 20px 20px;
+  margin-bottom: 35px;
   box-shadow: 0 4px 20px rgba(139, 38, 62, 0.06);
-  border: 1px solid #f8d7da;
+  border-bottom: 1px solid #f8d7da;
 }
 
-.hero-title {
+.hero h1 {
   color: #8b263e;
-  font-size: 2.2rem;
-  margin-bottom: 15px;
+  font-size: 2.3rem;
+  margin-bottom: 12px;
   font-weight: 800;
 }
 
-.hero-subtitle {
+.hero p {
   color: #5c3a42;
   font-size: 1.1rem;
   max-width: 650px;
   margin: 0 auto 25px;
 }
 
-.hero-buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
+.section {
+  margin-bottom: 35px;
 }
 
-/* Grid Card Beranda */
-.grid-cards {
+.section h2 {
+  color: #8b263e;
+  font-size: 1.5rem;
+  margin-bottom: 18px;
+  border-bottom: 2px solid #f8d7da;
+  padding-bottom: 8px;
+  font-weight: 700;
+}
+
+/* Grid Statistik */
+.stat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
-  margin: 30px 0;
 }
 
-.feature-card {
+.stat-card {
   background: #ffffff;
-  padding: 25px;
+  padding: 22px;
   border-radius: 12px;
   border: 1px solid #f8d7da;
   box-shadow: 0 4px 12px rgba(139, 38, 62, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-angka {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #c94a6e;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  color: #5c3a42;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Grid Ticket Cards */
+.ticket-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.ticket-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #f8d7da;
+  box-shadow: 0 4px 12px rgba(139, 38, 62, 0.05);
+  position: relative;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.feature-card:hover {
+.ticket-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 16px rgba(139, 38, 62, 0.1);
 }
 
-.feature-card h3 {
+.swatch {
+  display: block;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.ticket-card h3 {
   color: #8b263e;
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.ticket-card .type {
+  color: #7a525d;
+  font-size: 0.85rem;
   margin-bottom: 10px;
 }
 
-/* ===================================================
-   LOGIN & FORM CARDS (PESAN TIKET, EDIT, TAMBAH)
-   =================================================== */
-.section-head {
-  text-align: center;
-  margin: 30px 0 25px;
-}
-
-.section-head h2 {
-  color: #8b263e;
-  font-size: 1.8rem;
-  margin-bottom: 8px;
+.ticket-card .price {
+  color: #c94a6e;
   font-weight: 700;
+  font-size: 1.1rem;
 }
 
-.section-head p {
-  color: #7a525d;
-  font-size: 0.95rem;
-}
-
-.card-form {
+/* Benefit VIP List */
+.benefit-list {
   background: #ffffff;
-  border-radius: 16px;
-  padding: 35px;
-  box-shadow: 0 6px 20px rgba(139, 38, 62, 0.08);
-  max-width: 520px;
-  margin: 20px auto 40px;
+  padding: 25px 35px;
+  border-radius: 12px;
   border: 1px solid #f8d7da;
-}
-
-.card-login {
-  max-width: 420px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #5c3a42;
-  font-size: 0.9rem;
-}
-
-.form-control {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1.5px solid #e2b6c1;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(139, 38, 62, 0.05);
+  list-style: disc;
   color: #4a2e35;
-  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-control:focus {
-  border-color: #c94a6e;
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(201, 74, 110, 0.15);
+.benefit-list li {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
 }
 
-select.form-control {
-  cursor: pointer;
+.benefit-list li:last-child {
+  margin-bottom: 0;
 }
 
 /* ===================================================
@@ -292,158 +297,58 @@ select.form-control {
   background-color: #fce4ec;
 }
 
-.btn-kecil {
-  padding: 8px 16px;
-  font-size: 0.85rem;
-}
-
-.btn-danger {
-  background-color: #d9534f;
-  box-shadow: 0 2px 8px rgba(217, 83, 79, 0.25);
-}
-
-.btn-danger:hover {
-  background-color: #c9302c;
-}
-
 /* ===================================================
-   SEARCH BOX & TABLE LIST PESANAN
+   FORM & LOGIN STYLES
    =================================================== */
-.search-box {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 25px;
-  flex-wrap: wrap;
-}
-
-.search-box input[type="text"] {
-  flex: 1;
-  min-width: 220px;
-  padding: 10px 16px;
-  border: 1.5px solid #e2b6c1;
-  border-radius: 8px;
-  outline: none;
-}
-
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
+.card-form {
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(139, 38, 62, 0.08);
-  margin-bottom: 25px;
+  border-radius: 16px;
+  padding: 35px;
+  box-shadow: 0 6px 20px rgba(139, 38, 62, 0.08);
+  max-width: 520px;
+  margin: 30px auto 40px;
   border: 1px solid #f8d7da;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  min-width: 650px;
+.form-group {
+  margin-bottom: 20px;
 }
 
-th {
-  background-color: #f8d7da;
-  color: #8b263e;
-  padding: 14px 16px;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-td {
-  padding: 14px 16px;
-  border-bottom: 1px solid #f2d6dc;
-  font-size: 0.95rem;
-}
-
-tr:last-child td {
-  border-bottom: none;
-}
-
-.aksi-cell {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.btn-aksi {
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  text-decoration: none;
+.form-group label {
+  display: block;
   font-weight: 600;
-  border: 1px solid transparent;
-  cursor: pointer;
+  margin-bottom: 8px;
+  color: #5c3a42;
+  font-size: 0.9rem;
 }
 
-.btn-edit {
-  color: #c94a6e;
+.form-control,
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="email"],
+select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e2b6c1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  color: #4a2e35;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus,
+input:focus,
+select:focus {
   border-color: #c94a6e;
-  background-color: #fff;
-}
-
-.btn-edit:hover {
-  background-color: #f8d7da;
-}
-
-.btn-hapus {
-  color: #d9534f;
-  border-color: #d9534f;
-  background-color: #fff;
-}
-
-.btn-hapus:hover {
-  background-color: #f8d7da;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(201, 74, 110, 0.15);
 }
 
 /* ===================================================
-   PAGINATION, FLASH MESSAGES & FOOTER
+   FOOTER
    =================================================== */
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 25px;
-}
-
-.pagination a {
-  padding: 8px 14px;
-  background: #fff;
-  border: 1px solid #e2b6c1;
-  color: #8b263e;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.pagination a.active,
-.pagination a:hover {
-  background: #c94a6e;
-  color: #fff;
-  border-color: #c94a6e;
-}
-
-.flash {
-  padding: 14px 20px;
-  border-radius: 8px;
-  margin-bottom: 25px;
-  font-weight: 600;
-  text-align: center;
-}
-
-.flash-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-.flash-success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
 footer {
   background-color: #ffffff;
   border-top: 1px solid #f8d7da;
@@ -464,32 +369,12 @@ footer {
     text-align: center;
   }
 
-  .nav-links {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .user-actions {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .hero-title {
-    font-size: 1.7rem;
+  .hero h1 {
+    font-size: 1.8rem;
   }
 
   .card-form {
     padding: 25px 20px;
-    margin: 15px auto 30px;
-  }
-
-  .search-box {
-    flex-direction: column;
-  }
-
-  .search-box input[type="text"],
-  .search-box .btn {
-    width: 100%;
+    margin: 20px 15px;
   }
 }
