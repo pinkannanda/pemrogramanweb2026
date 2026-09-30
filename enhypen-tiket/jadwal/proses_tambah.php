@@ -1,4 +1,8 @@
 <?php
+// Aktifkan error log
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require __DIR__ . '/../includes/koneksi.php';
 require __DIR__ . '/../includes/functions.php';
@@ -19,30 +23,18 @@ $errors = [];
 
 if ($tanggal === '') {
     $errors[] = 'Tanggal wajib diisi.';
-} else {
-    $tahun = (int) date('Y', strtotime($tanggal) ?: 0);
-    if ($tahun < 2026 || $tahun > 2026) {
-        $errors[] = 'Tanggal harus di tahun 2026.';
-    }
 }
-
 if ($kota === '') {
     $errors[] = 'Kota wajib diisi.';
 }
 if ($venue === '') {
     $errors[] = 'Venue wajib diisi.';
 }
-
 if ($kapasitas === '' || !is_numeric($kapasitas)) {
     $errors[] = 'Kapasitas harus berupa angka.';
-} elseif ((int) $kapasitas < 1) {
-    $errors[] = 'Kapasitas minimal 1.';
 }
-
 if ($harga === '' || !is_numeric($harga)) {
     $errors[] = 'Harga harus berupa angka.';
-} elseif ((int) $harga < 0) {
-    $errors[] = 'Harga tidak boleh negatif.';
 }
 
 if (!empty($errors)) {
@@ -53,37 +45,26 @@ if (!empty($errors)) {
 }
 
 try {
-    // Jalankan fungsi kodeStatus jika ada, jika tidak gunakan string $status langsung
-    $status_final = function_exists('kodeStatus') ? kodeStatus($status) : $status;
-
-    // INSERT yang fleksibel mengisi kolom baru & fallback kolom legacy PostgreSQL
     $stmt = $pdo->prepare(
-        "INSERT INTO jadwal (
-            tanggal, kota, venue, kapasitas, harga_mulai, status,
-            nama_event, lokasi, tanggal_konser, waktu_konser
-        ) VALUES (
-            :tanggal, :kota, :venue, :kapasitas, :harga_mulai, :status,
-            :nama_event, :lokasi, :tanggal_konser, :waktu_konser
-        ) RETURNING id"
+        "INSERT INTO jadwal (tanggal, kota, venue, kapasitas, harga_mulai, status)
+         VALUES (:tanggal, :kota, :venue, :kapasitas, :harga_mulai, :status)"
     );
-
     $stmt->execute([
-        'tanggal'        => $tanggal,
-        'kota'           => $kota,
-        'venue'          => $venue,
-        'kapasitas'      => (int) $kapasitas,
-        'harga_mulai'    => (int) $harga,
-        'status'         => $status_final,
-        'nama_event'     => "ENHYPEN TOUR - " . $kota,
-        'lokasi'         => $venue,
-        'tanggal_konser' => $tanggal,
-        'waktu_konser'   => '19:00:00'
+        'tanggal'     => $tanggal,
+        'kota'        => $kota,
+        'venue'       => $venue,
+        'kapasitas'   => (int) $kapasitas,
+        'harga_mulai' => (int) $harga,
+        'status'      => $status,
     ]);
 
     $_SESSION['flash'] = ['type' => 'sukses', 'pesan' => 'Jadwal tur berhasil ditambahkan.'];
     header('Location: list.php');
     exit;
 
-} catch (PDOException $e) {
-    die("Error Simpan Jadwal: " . $e->getMessage());
+} catch (Exception $e) {
+    // Tampilkan detail error tepat di layar
+    echo "<h3 style='color:red;'>Terjadi Error Saat Menyimpan:</h3>";
+    echo "<pre>" . htmlspecialchars($e->getMessage()) . "</pre>";
+    exit;
 }
