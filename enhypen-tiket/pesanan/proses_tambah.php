@@ -9,12 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // 1. Tangkap input POST
-$nama   = trim($_POST['nama_pemesan'] ?? $_POST['nama'] ?? '');
-$email  = trim($_POST['email'] ?? '');
-$telepon = trim($_POST['telepon'] ?? $_POST['no_wa'] ?? '');
-$kota   = trim($_POST['kota'] ?? '');
+$nama     = trim($_POST['nama_pemesan'] ?? $_POST['nama'] ?? '');
+$email    = trim($_POST['email'] ?? '');
+$telepon  = trim($_POST['telepon'] ?? $_POST['no_wa'] ?? '');
+$kota     = trim($_POST['kota'] ?? '');
 $kategori = trim($_POST['kategori'] ?? '');
-$jumlah = (int) ($_POST['jumlah'] ?? $_POST['jumlah_tiket'] ?? 1);
+
+// Ambil jumlah tiket dari form (cek 'jumlah' atau 'jumlah_tiket')
+$jumlah   = isset($_POST['jumlah']) ? (int)$_POST['jumlah'] : (isset($_POST['jumlah_tiket']) ? (int)$_POST['jumlah_tiket'] : 1);
 
 // 2. Validasi input
 if ($nama === '' || $email === '' || $telepon === '' || $kota === '' || $kategori === '') {

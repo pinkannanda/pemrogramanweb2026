@@ -11,8 +11,7 @@ $offset  = ($page - 1) * $perPage;
 
 try {
     if ($q !== '') {
-        // Query disesuaikan untuk mengecek kolom nama_pemesan maupun nama
-        $totalStmt = $pdo->prepare('SELECT COUNT(*) FROM pesanan WHERE nama_pemesan ILIKE :kw OR email ILIKE :kw OR nama ILIKE :kw');
+        $totalStmt = $pdo->prepare('SELECT COUNT(*) FROM pesanan WHERE nama_pemesan ILIKE :kw OR email ILIKE :kw');
         $totalStmt->execute(['kw' => '%' . $q . '%']);
     } else {
         $totalStmt = $pdo->query('SELECT COUNT(*) FROM pesanan');
@@ -22,7 +21,7 @@ try {
 
     if ($q !== '') {
         $stmt = $pdo->prepare(
-            'SELECT * FROM pesanan WHERE nama_pemesan ILIKE :kw OR email ILIKE :kw OR nama ILIKE :kw
+            'SELECT * FROM pesanan WHERE nama_pemesan ILIKE :kw OR email ILIKE :kw
              ORDER BY id DESC LIMIT :limit OFFSET :offset'
         );
         $stmt->bindValue('kw', '%' . $q . '%');
@@ -81,13 +80,13 @@ include __DIR__ . '/../includes/header.php';
           <?php else: ?>
             <?php foreach ($daftarPesanan as $p): ?>
               <?php
-                // Safe Fallback untuk menghindari Undefined Key & NULL argument error
-                $namaTampil     = $p['nama_pemesan'] ?? $p['nama'] ?? '-';
+                // Dahulukan jumlah_tiket yang berisi angka asli dari DB
+                $namaTampil     = !empty($p['nama_pemesan']) ? $p['nama_pemesan'] : ($p['nama'] ?? '-');
                 $emailTampil    = $p['email'] ?? '-';
                 $teleponTampil  = $p['telepon'] ?? $p['no_wa'] ?? '-';
                 $kotaTampil     = $p['kota'] ?? '-';
                 $kategoriTampil = $p['kategori'] ?? '-';
-                $jumlahTampil   = $p['jumlah'] ?? $p['jumlah_tiket'] ?? 0;
+                $jumlahTampil   = $p['jumlah_tiket'] ?? $p['jumlah'] ?? 1;
               ?>
               <tr>
                 <td><?= h((string)$namaTampil) ?></td>

@@ -59,10 +59,18 @@ include __DIR__ . '/../includes/header.php';
         </select>
       </div>
 
-      <div class="form-row">
-        <label for="jumlah">Jumlah Tiket (Maksimal 4)</label>
-        <input type="number" id="jumlah" name="jumlah" data-label="Jumlah tiket" min="1" max="4" value="<?= h(old($old, 'jumlah', 1)) ?>" required>
-      </div>
+     
+<div class="mb-3">
+    <label for="jumlah" class="form-label">Jumlah Tiket (Maksimal 4)</label>
+    <input type="number" 
+           id="jumlah" 
+           name="jumlah" 
+           class="form-control" 
+           min="1" 
+           max="4" 
+           value="<?= h(old($old, 'jumlah', '1')) ?>" 
+           required>
+</div>
 
       <button type="submit" class="btn btn-block">Pesan Tiket Sekarang</button>
     </form>
