@@ -11,28 +11,32 @@ $perPage = 5;
 $page    = max(1, (int) ($_GET['page'] ?? 1));
 $offset  = ($page - 1) * $perPage;
 
-if ($q !== '') {
-    $totalStmt = $pdo->prepare('SELECT COUNT(*) FROM jadwal WHERE kota ILIKE :kw OR venue ILIKE :kw');
-    $totalStmt->execute(['kw' => '%' . $q . '%']);
-} else {
-    $totalStmt = $pdo->query('SELECT COUNT(*) FROM jadwal');
-}
-$totalBaris = (int) $totalStmt->fetchColumn();
-$totalHalaman = max(1, (int) ceil($totalBaris / $perPage));
+try {
+    if ($q !== '') {
+        $totalStmt = $pdo->prepare('SELECT COUNT(*) FROM jadwal WHERE kota ILIKE :kw OR venue ILIKE :kw');
+        $totalStmt->execute(['kw' => '%' . $q . '%']);
+    } else {
+        $totalStmt = $pdo->query('SELECT COUNT(*) FROM jadwal');
+    }
+    $totalBaris = (int) $totalStmt->fetchColumn();
+    $totalHalaman = max(1, (int) ceil($totalBaris / $perPage));
 
-if ($q !== '') {
-    $stmt = $pdo->prepare(
-        'SELECT * FROM jadwal WHERE kota ILIKE :kw OR venue ILIKE :kw
-         ORDER BY id DESC LIMIT :limit OFFSET :offset'
-    );
-    $stmt->bindValue('kw', '%' . $q . '%');
-} else {
-    $stmt = $pdo->prepare('SELECT * FROM jadwal ORDER BY id DESC LIMIT :limit OFFSET :offset');
+    if ($q !== '') {
+        $stmt = $pdo->prepare(
+            'SELECT * FROM jadwal WHERE kota ILIKE :kw OR venue ILIKE :kw
+             ORDER BY id DESC LIMIT :limit OFFSET :offset'
+        );
+        $stmt->bindValue('kw', '%' . $q . '%');
+    } else {
+        $stmt = $pdo->prepare('SELECT * FROM jadwal ORDER BY id DESC LIMIT :limit OFFSET :offset');
+    }
+    $stmt->bindValue('limit', $perPage, PDO::PARAM_INT);
+    $stmt->bindValue('offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $daftarJadwal = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error Query Jadwal: " . $e->getMessage());
 }
-$stmt->bindValue('limit', $perPage, PDO::PARAM_INT);
-$stmt->bindValue('offset', $offset, PDO::PARAM_INT);
-$stmt->execute();
-$daftarJadwal = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $flash = ambilFlash();
 
@@ -69,18 +73,28 @@ include __DIR__ . '/../includes/header.php';
             <tr><td colspan="7" class="pesan-gagal">Tidak ada jadwal yang cocok.</td></tr>
           <?php else: ?>
             <?php foreach ($daftarJadwal as $j): ?>
+              <?php
+                // --- PENANGANAN NULL SAFETY ---
+                $tglRaw = $j['tanggal'] ?? $j['tanggal_konser'] ?? null;
+                $tglTampil = !empty($tglRaw) ? formatTanggalIndo((string) $tglRaw) : '-';
+                
+                $kotaTampil  = $j['kota'] ?? $j['nama_event'] ?? '-';
+                $venueTampil = $j['venue'] ?? $j['lokasi'] ?? '-';
+                $statusRaw   = $j['status'] ?? 'Tersedia';
+                $labelStts   = function_exists('labelStatus') ? labelStatus($statusRaw) : $statusRaw;
+              ?>
               <tr>
-                <td><?= h(formatTanggalIndo($j['tanggal'])) ?></td>
-                <td><?= h($j['kota']) ?></td>
-                <td><?= h($j['venue']) ?></td>
-                <td><?= formatAngka((int) $j['kapasitas']) ?></td>
-                <td><?= formatRupiah((int) $j['harga_mulai']) ?></td>
-                <td><span class="status-pill status-<?= h($j['status']) ?>"><?= h(labelStatus($j['status'])) ?></span></td>
+                <td><?= h($tglTampil) ?></td>
+                <td><?= h($kotaTampil) ?></td>
+                <td><?= h($venueTampil) ?></td>
+                <td><?= formatAngka((int) ($j['kapasitas'] ?? 0)) ?></td>
+                <td><?= formatRupiah((int) ($j['harga_mulai'] ?? 0)) ?></td>
+                <td><span class="status-pill status-<?= h($statusRaw) ?>"><?= h($labelStts) ?></span></td>
                 <td class="aksi-cell">
                   <a href="edit.php?id=<?= (int) $j['id'] ?>" class="btn-aksi btn-edit">Edit</a>
                   <form class="form-hapus" method="post" action="hapus.php">
                     <input type="hidden" name="id" value="<?= (int) $j['id'] ?>">
-                    <button type="submit" class="btn-aksi btn-hapus" data-nama="jadwal <?= h($j['kota']) ?>">Hapus</button>
+                    <button type="submit" class="btn-aksi btn-hapus" data-nama="jadwal <?= h($kotaTampil) ?>">Hapus</button>
                   </form>
                 </td>
               </tr>
