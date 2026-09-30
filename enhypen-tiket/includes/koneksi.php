@@ -6,7 +6,7 @@ if ($database_url) {
     // Lingkungan Railway (Neon PostgreSQL)
     $dbopts = parse_url($database_url);
     
-    $host     = $dbopts["host"] ?? '';
+    $host     = $dbopts["host"] ?? ''; // Perbaikan: "host" tanpa spasi
     $port     = $dbopts["port"] ?? 5432;
     $user     = $dbopts["user"] ?? '';
     $password = $dbopts["pass"] ?? '';
