@@ -33,14 +33,16 @@ if (!$user || !password_verify($password, $user['password'])) {
     exit;
 }
 
+$nama_user = !empty($user['nama']) ? $user['nama'] : $user['username'];
+
 $_SESSION['user_id']  = $user['id'];
 $_SESSION['username'] = $user['username'];
-$_SESSION['nama']     = $user['nama'];
+$_SESSION['nama']     = $nama_user;
 
 $_SESSION['flash'] = [
     'type' => 'sukses',
-    'pesan' => 'Selamat datang kembali, ' . $user['nama'] . '!'
+    'pesan' => 'Selamat datang kembali, ' . $nama_user . '!'
 ];
 
-header('Location: /pesanan/list.php');
+header('Location: ../pesanan/list.php');
 exit;
