@@ -1,18 +1,5 @@
 "use strict";
 
-/*
- * Jobsheet 7: rendering tabel sekarang dikerjakan PHP di server
- * (lihat jadwal/list.php dan pesanan/list.php), bukan lagi oleh
- * fetch() + JavaScript seperti Jobsheet 6. Karena itu helper
- * pembuat baris tabel (buatSel, buatSelHapus, pesanTabel, tunda)
- * yang dulu ada di file ini sudah tidak dipakai lagi dan dihapus.
- *
- * Validasi di file ini TETAP dipakai sebagai lapisan pertama (cepat
- * terasa oleh pengguna), tapi TIDAK BISA DIANDALKAN SENDIRIAN, karena
- * bisa dilewati dengan menonaktifkan JavaScript. Validasi yang
- * benar-benar mengikat ada di proses_tambah.php (server-side).
- */
-
 /* 1. Hamburger menu */
 function initHamburger() {
   const tombol = document.querySelector(".nav-toggle");
@@ -24,7 +11,7 @@ function initHamburger() {
   });
 }
 
-/* 2. Validasi form client-side (lapisan pertama, boleh dilewati) */
+/* 2. Validasi form client-side */
 function hapusError(form) {
   form.querySelectorAll(".pesan-error").forEach(function (el) { el.remove(); });
   form.querySelectorAll(".input-error").forEach(function (el) { el.classList.remove("input-error"); });
@@ -84,13 +71,9 @@ function initValidasiForm() {
       });
 
       if (pertama) {
-        // Ada error di browser: batalkan submit, jangan sampai ke server.
         e.preventDefault();
         pertama.focus();
       }
-      // PENTING (Jobsheet 7): kalau TIDAK ada error, JANGAN preventDefault.
-      // Biarkan form benar-benar ter-submit (POST) ke action="proses_tambah.php".
-      // Validasi server di sana yang memutuskan final, bukan JS ini.
     });
 
     form.addEventListener("input", function (e) {
@@ -102,7 +85,7 @@ function initValidasiForm() {
   });
 }
 
-/* 3. Pencarian tabel real-time (keyup) */
+/* 3. Pencarian tabel real-time (filter client-side, di atas hasil server) */
 function initTableFilter() {
   document.querySelectorAll("[data-filter-tabel]").forEach(function (input) {
     const tabel = document.querySelector(input.dataset.filterTabel);
@@ -116,15 +99,19 @@ function initTableFilter() {
   });
 }
 
-/* 4. Tombol Hapus: masih front-end saja (confirm() lalu hapus dari tampilan). */
+/* 4. Konfirmasi Hapus (Jobsheet 9): sekarang form sungguhan, jadi
+   konfirmasi dipasang di event SUBMIT (bisa dibatalkan dengan
+   preventDefault), bukan lagi CLICK seperti Jobsheet 5-8. */
 function initHapusConfirm() {
-  document.addEventListener("click", function (e) {
-    const tombol = e.target.closest(".btn-hapus");
-    if (!tombol) return;
-    const baris = tombol.closest("tr");
-    if (!baris) return;
-    const nama = tombol.dataset.nama || "data ini";
-    if (confirm("Yakin ingin menghapus " + nama + "?")) baris.remove();
+  document.querySelectorAll(".form-hapus").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      const tombol = form.querySelector(".btn-hapus");
+      const nama = tombol?.dataset.nama || "data ini";
+      const yakin = confirm("Yakin ingin menghapus " + nama + "?");
+      if (!yakin) {
+        e.preventDefault(); // batalkan submit, tidak ada request ke server sama sekali
+      }
+    });
   });
 }
 

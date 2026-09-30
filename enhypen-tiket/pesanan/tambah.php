@@ -5,16 +5,16 @@ require __DIR__ . '/../includes/functions.php';
 $flash = ambilFlash();
 $old   = ambilOldInput();
 
-$pageTitle  = 'Tambah Jadwal';
-$activePage = 'jadwal';
+$pageTitle  = 'Pesan Tiket';
+$activePage = 'pesan_tiket';
 include __DIR__ . '/../includes/header.php';
 ?>
 
 <main class="container">
   <section class="section">
     <div class="section-head section-head-center">
-      <h2>Tambah Jadwal Tur</h2>
-      <p>Data dikirim ke <code>proses_tambah.php</code> dan divalidasi di server, bukan hanya di browser.</p>
+      <h2>Pesan Tiket Konser</h2>
+      <p>Silakan isi formulir di bawah ini untuk memesan tiket.</p>
     </div>
 
     <?php if ($flash): ?>
@@ -23,37 +23,48 @@ include __DIR__ . '/../includes/header.php';
 
     <form class="order-card" action="proses_tambah.php" method="post" data-validasi>
       <div class="form-row">
-        <label for="tanggal">Tanggal Konser</label>
-        <input type="date" id="tanggal" name="tanggal" data-label="Tanggal" min="2026-01-01" max="2026-12-31" value="<?= h(old($old, 'tanggal')) ?>" required>
+        <label for="nama">Nama Lengkap</label>
+        <input type="text" id="nama" name="nama" data-label="Nama lengkap" placeholder="Masukkan nama lengkap" value="<?= h(old($old, 'nama')) ?>" required>
       </div>
+
       <div class="form-row">
-        <label for="kota">Kota</label>
-        <input type="text" id="kota" name="kota" data-label="Kota" placeholder="Contoh: Jakarta, Indonesia" value="<?= h(old($old, 'kota')) ?>" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" data-label="Email" placeholder="contoh@email.com" value="<?= h(old($old, 'email')) ?>" required>
       </div>
+
       <div class="form-row">
-        <label for="venue">Venue</label>
-        <input type="text" id="venue" name="venue" data-label="Venue" placeholder="Nama stadion / arena" value="<?= h(old($old, 'venue')) ?>" required>
+        <label for="telepon">No. WhatsApp</label>
+        <input type="tel" id="telepon" name="telepon" data-label="No. WhatsApp" placeholder="081234567890" value="<?= h(old($old, 'telepon')) ?>" required>
       </div>
-      <div class="form-grid-2">
-        <div class="form-row">
-          <label for="kapasitas">Kapasitas</label>
-          <input type="number" id="kapasitas" name="kapasitas" data-label="Kapasitas" min="1" value="<?= h(old($old, 'kapasitas')) ?>" required>
-        </div>
-        <div class="form-row">
-          <label for="harga">Harga Mulai (Rp)</label>
-          <input type="number" id="harga" name="harga" data-label="Harga" min="0" value="<?= h(old($old, 'harga')) ?>" required>
-        </div>
-      </div>
+
       <div class="form-row">
-        <label for="status">Status</label>
-        <?php $statusLama = old($old, 'status', 'Tiket Tersedia'); ?>
-        <select id="status" name="status">
-          <?php foreach (['Tiket Tersedia', 'Segera Dibuka', 'Habis Terjual'] as $opsi): ?>
-            <option <?= $opsi === $statusLama ? 'selected' : '' ?>><?= h($opsi) ?></option>
+        <label for="kota">Kota Konser</label>
+        <?php $kotaLama = old($old, 'kota'); ?>
+        <select id="kota" name="kota" required>
+          <option value="">-- Pilih Kota --</option>
+          <?php foreach (['Jakarta, Indonesia', 'Seoul, South Korea', 'Tokyo, Japan', 'Bangkok, Thailand'] as $opsiKota): ?>
+            <option value="<?= h($opsiKota) ?>" <?= $opsiKota === $kotaLama ? 'selected' : '' ?>><?= h($opsiKota) ?></option>
           <?php endforeach; ?>
         </select>
       </div>
-      <button type="submit" class="btn btn-block">Simpan Jadwal</button>
+
+      <div class="form-row">
+        <label for="kategori">Kategori Tiket</label>
+        <?php $kategoriLama = old($old, 'kategori'); ?>
+        <select id="kategori" name="kategori" required>
+          <option value="">-- Pilih Kategori Tiket --</option>
+          <?php foreach (['VIP', 'CAT 1', 'CAT 2', 'CAT 3'] as $opsiKategori): ?>
+            <option value="<?= h($opsiKategori) ?>" <?= $opsiKategori === $kategoriLama ? 'selected' : '' ?>><?= h($opsiKategori) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="jumlah">Jumlah Tiket (Maksimal 4)</label>
+        <input type="number" id="jumlah" name="jumlah" data-label="Jumlah tiket" min="1" max="4" value="<?= h(old($old, 'jumlah', 1)) ?>" required>
+      </div>
+
+      <button type="submit" class="btn btn-block">Pesan Tiket Sekarang</button>
     </form>
   </section>
 </main>

@@ -3,9 +3,36 @@ session_start();
 require __DIR__ . '/../includes/koneksi.php';
 require __DIR__ . '/../includes/functions.php';
 
-// Jobsheet 8: sumber data sekarang SELECT dari database, bukan lagi
-// $_SESSION['jadwal']. ORDER BY id DESC = data terbaru muncul di atas.
-$daftarJadwal = $pdo->query("SELECT * FROM jadwal ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+// ---------- Pencarian server-side ----------
+$q = trim($_GET['q'] ?? '');
+
+// ---------- Pagination ----------
+$perPage = 5;
+$page    = max(1, (int) ($_GET['page'] ?? 1));
+$offset  = ($page - 1) * $perPage;
+
+if ($q !== '') {
+    $totalStmt = $pdo->prepare('SELECT COUNT(*) FROM jadwal WHERE kota ILIKE :kw OR venue ILIKE :kw');
+    $totalStmt->execute(['kw' => '%' . $q . '%']);
+} else {
+    $totalStmt = $pdo->query('SELECT COUNT(*) FROM jadwal');
+}
+$totalBaris = (int) $totalStmt->fetchColumn();
+$totalHalaman = max(1, (int) ceil($totalBaris / $perPage));
+
+if ($q !== '') {
+    $stmt = $pdo->prepare(
+        'SELECT * FROM jadwal WHERE kota ILIKE :kw OR venue ILIKE :kw
+         ORDER BY id DESC LIMIT :limit OFFSET :offset'
+    );
+    $stmt->bindValue('kw', '%' . $q . '%');
+} else {
+    $stmt = $pdo->prepare('SELECT * FROM jadwal ORDER BY id DESC LIMIT :limit OFFSET :offset');
+}
+$stmt->bindValue('limit', $perPage, PDO::PARAM_INT);
+$stmt->bindValue('offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$daftarJadwal = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $flash = ambilFlash();
 
@@ -18,17 +45,20 @@ include __DIR__ . '/../includes/header.php';
   <section class="section">
     <div class="section-head">
       <h2>Daftar Jadwal Tur 2026</h2>
-      <p>Data dibaca langsung dari database PostgreSQL (tabel <code>jadwal</code>), tersimpan permanen.</p>
+      <p>Data dibaca dari database PostgreSQL, dengan pencarian &amp; pagination di server.</p>
     </div>
 
     <?php if ($flash): ?>
       <p class="flash flash-<?= h($flash['type']) ?>"><?= h($flash['pesan']) ?></p>
     <?php endif; ?>
 
-    <div class="search-box">
-      <input type="search" data-filter-tabel="#tabel-jadwal" placeholder="Cari kota, venue, atau status..." aria-label="Cari jadwal">
+    <form class="search-box" method="get" action="list.php">
+      <input type="text" id="search-input" name="q" data-filter-tabel="#tabel-jadwal"
+             placeholder="Cari kota atau venue..." value="<?= h($q) ?>">
+      <button type="submit" class="btn btn-kecil">Cari</button>
       <a href="tambah.php" class="btn btn-kecil">+ Tambah Jadwal</a>
-    </div>
+    </form>
+
     <div class="table-responsive">
       <table id="tabel-jadwal">
         <thead>
@@ -36,7 +66,7 @@ include __DIR__ . '/../includes/header.php';
         </thead>
         <tbody>
           <?php if (empty($daftarJadwal)): ?>
-            <tr><td colspan="7" class="pesan-gagal">Belum ada jadwal.</td></tr>
+            <tr><td colspan="7" class="pesan-gagal">Tidak ada jadwal yang cocok.</td></tr>
           <?php else: ?>
             <?php foreach ($daftarJadwal as $j): ?>
               <tr>
@@ -46,13 +76,28 @@ include __DIR__ . '/../includes/header.php';
                 <td><?= formatAngka((int) $j['kapasitas']) ?></td>
                 <td><?= formatRupiah((int) $j['harga_mulai']) ?></td>
                 <td><span class="status-pill status-<?= h($j['status']) ?>"><?= h(labelStatus($j['status'])) ?></span></td>
-                <td><button type="button" class="btn-hapus" data-nama="jadwal <?= h($j['kota']) ?>">Hapus</button></td>
+                <td class="aksi-cell">
+                  <a href="edit.php?id=<?= (int) $j['id'] ?>" class="btn-aksi btn-edit">Edit</a>
+                  <form class="form-hapus" method="post" action="hapus.php">
+                    <input type="hidden" name="id" value="<?= (int) $j['id'] ?>">
+                    <button type="submit" class="btn-aksi btn-hapus" data-nama="jadwal <?= h($j['kota']) ?>">Hapus</button>
+                  </form>
+                </td>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>
         </tbody>
       </table>
     </div>
+
+    <?php if ($totalHalaman > 1): ?>
+      <nav class="pagination">
+        <?php for ($p = 1; $p <= $totalHalaman; $p++): ?>
+          <a href="list.php?page=<?= $p ?><?= $q !== '' ? '&q=' . urlencode($q) : '' ?>"
+             class="<?= $p === $page ? 'active' : '' ?>"><?= $p ?></a>
+        <?php endfor; ?>
+      </nav>
+    <?php endif; ?>
   </section>
 </main>
 

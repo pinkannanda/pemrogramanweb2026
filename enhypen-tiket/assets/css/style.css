@@ -51,6 +51,24 @@ th{ background: #f7dce7; color: #c76b91; text-transform: uppercase; font-size: .
 .search-box{ margin-bottom: 16px; }
 .search-box input{ width: 100%; max-width: 360px; padding: 10px; background: #fff7fa; border: 1px solid #dfb8c8; font-size: .95rem; margin-bottom: 8px; }
 
+/* ===== AKSI EDIT/HAPUS & PAGINATION (Jobsheet 9) ===== */
+.aksi-cell{ display: flex; gap: 6px; align-items: center; }
+.form-hapus{ display: inline; margin: 0; }
+.btn-aksi{
+  display: inline-block; padding: 6px 12px; font-size: .8rem; font-weight: bold;
+  border-radius: 3px; border: 1px solid; cursor: pointer; text-decoration: none;
+}
+.btn-edit{ background: #fff; color: #1d5b8a; border-color: #1d5b8a; }
+.btn-edit:hover{ background: #1d5b8a; color: #fff; }
+
+.pagination{ display: flex; gap: 6px; margin-top: 16px; }
+.pagination a{
+  display: inline-block; padding: 8px 14px; border: 1px solid #dfb8c8;
+  color: #c76b91; text-decoration: none; font-weight: bold;
+}
+.pagination a.active{ background: #c76b91; color: #fff; border-color: #c76b91; }
+.pagination a:hover:not(.active){ background: #fff0f5; }
+
 /* ===== KARTU STATISTIK (Jobsheet 8) ===== */
 .stat-grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 480px; }
 .stat-card{
