@@ -13,7 +13,6 @@ $username = $isLoggedIn ? $_SESSION['user']['username'] : '';
   <title><?= isset($pageTitle) ? h($pageTitle) . ' - ' : '' ?>ENHYPEN Konser</title>
   <link rel="stylesheet" href="/assets/css/style.css">
   <style>
-    /* Style Navbar Responsive */
     .navbar-container {
       display: flex;
       justify-content: space-between;
@@ -21,9 +20,20 @@ $username = $isLoggedIn ? $_SESSION['user']['username'] : '';
       padding: 15px 20px;
       background-color: #ffffff;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      flex-wrap: wrap;
-      gap: 10px;
+      position: relative;
     }
+    
+    .hamburger-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: #8b263e;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+
     .nav-menu {
       display: flex;
       gap: 15px;
@@ -31,8 +41,8 @@ $username = $isLoggedIn ? $_SESSION['user']['username'] : '';
       list-style: none;
       margin: 0;
       padding: 0;
-      flex-wrap: wrap;
     }
+
     .nav-menu a {
       text-decoration: none;
       color: #555;
@@ -42,23 +52,52 @@ $username = $isLoggedIn ? $_SESSION['user']['username'] : '';
       border-radius: 6px;
       transition: all 0.2s;
     }
+
     .nav-menu a.active, .nav-menu a:hover {
       color: #8b263e;
       border-bottom: 2px solid #8b263e;
     }
+
+    /* Tampilan Mobile */
     @media (max-width: 768px) {
       .navbar-container {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: wrap;
       }
+
+      .hamburger-btn {
+        display: block;
+      }
+
       .nav-menu {
+        display: none; /* Disembunyikan dulu sampai hamburger diklik */
+        flex-direction: column;
+        align-items: flex-start; /* Rata kiri */
         width: 100%;
-        justify-content: flex-start;
-        gap: 8px;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #f8d7da;
+        gap: 10px;
       }
+
+      .nav-menu.active {
+        display: flex; /* Muncul saat toggle aktif */
+      }
+
+      .nav-menu li {
+        width: 100%;
+      }
+
       .nav-menu a {
-        font-size: 0.85rem;
-        padding: 5px 8px;
+        display: block;
+        width: 100%;
+        padding: 8px 0;
+        text-align: left; /* Rata kiri */
+      }
+
+      .nav-menu a.active, .nav-menu a:hover {
+        border-bottom: none;
+        background-color: #fce4ec;
+        padding-left: 10px;
       }
     }
   </style>
@@ -67,6 +106,7 @@ $username = $isLoggedIn ? $_SESSION['user']['username'] : '';
 
 <header style="background: #ffffff; border-bottom: 1px solid #f8d7da;">
   <div class="navbar-container" style="max-width: 1100px; margin: 0 auto;">
+    <!-- Logo ENHYPEN -->
     <a href="/index.php" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
       <div style="background-color: #c94a6e; color: #fff; font-weight: bold; padding: 6px 12px; border-radius: 8px; font-size: 1.1rem;">EN</div>
       <div>
@@ -75,20 +115,33 @@ $username = $isLoggedIn ? $_SESSION['user']['username'] : '';
       </div>
     </a>
 
-    <ul class="nav-menu">
+    <!-- Tombol Hamburger Mobile -->
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Menu">
+      &#9776;
+    </button>
+
+    <!-- Menu Navigasi -->
+    <ul class="nav-menu" id="navMenu">
       <li><a href="/index.php" class="<?= ($activePage ?? '') === 'beranda' ? 'active' : '' ?>">Beranda</a></li>
       <li><a href="/jadwal/list.php" class="<?= ($activePage ?? '') === 'jadwal' ? 'active' : '' ?>">Jadwal Tur</a></li>
       <li><a href="/pesanan/list.php" class="<?= ($activePage ?? '') === 'pesanan' ? 'active' : '' ?>">Pesanan</a></li>
       <li><a href="/pesanan/tambah.php" class="<?= ($activePage ?? '') === 'pesan_tiket' ? 'active' : '' ?>">Pesan Tiket</a></li>
       
       <?php if ($isLoggedIn): ?>
-        <li style="background-color: #fce4ec; color: #8b263e; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+        <li style="background-color: #fce4ec; color: #8b263e; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-top: 5px;">
           Hi, <?= h($username) ?>
         </li>
-        <li><a href="/auth/logout.php" style="background-color: #c94a6e; color: #fff; padding: 6px 14px; border-radius: 8px; border-bottom: none;">Logout</a></li>
+        <li style="margin-top: 5px;"><a href="/auth/logout.php" style="background-color: #c94a6e; color: #fff; padding: 6px 14px; border-radius: 8px; border-bottom: none; display: inline-block;">Logout</a></li>
       <?php else: ?>
-        <li><a href="/auth/login.php" style="background-color: #c94a6e; color: #fff; padding: 6px 14px; border-radius: 8px; border-bottom: none;">Login</a></li>
+        <li style="margin-top: 5px;"><a href="/auth/login.php" style="background-color: #c94a6e; color: #fff; padding: 6px 14px; border-radius: 8px; border-bottom: none; display: inline-block;">Login</a></li>
       <?php endif; ?>
     </ul>
   </div>
 </header>
+
+<script>
+  // Toggle Hamburger Menu di Mobile
+  document.getElementById('hamburgerBtn').addEventListener('click', function() {
+    document.getElementById('navMenu').classList.toggle('active');
+  });
+</script>
