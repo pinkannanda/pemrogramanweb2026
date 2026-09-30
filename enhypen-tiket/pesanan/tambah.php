@@ -78,7 +78,7 @@ include __DIR__ . '/../includes/header.php';
     <p>Silakan isi formulir di bawah ini untuk memesan tiket.</p>
   </div>
 
-  <div class="card-form">
+  <div class="card-form" style="margin-bottom: 40px;">
     <?php if (isset($_SESSION['flash_message'])): ?>
       <div class="flash flash-<?= $_SESSION['flash_type'] ?? 'info' ?>">
         <?= h($_SESSION['flash_message']) ?>
@@ -132,12 +132,16 @@ include __DIR__ . '/../includes/header.php';
         </select>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" style="margin-bottom: 25px;">
         <label for="jumlah_tiket">Jumlah Tiket (Maksimal 4)</label>
         <input type="number" id="jumlah_tiket" name="jumlah_tiket" class="form-control" min="1" max="4" value="<?= h($_POST['jumlah_tiket'] ?? '1') ?>" required>
       </div>
 
-      <button type="submit" class="btn btn-full">Pesan Tiket Sekarang</button>
+      <div style="margin-top: 20px;">
+        <button type="submit" class="btn btn-full" style="width: 100%; display: block; padding: 12px; font-size: 1rem; font-weight: bold; background-color: #c94a6e; color: #fff; border: none; border-radius: 8px; cursor: pointer;">
+          Pesan Tiket Sekarang
+        </button>
+      </div>
     </form>
   </div>
 </main>
