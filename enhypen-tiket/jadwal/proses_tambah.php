@@ -52,22 +52,38 @@ if (!empty($errors)) {
     exit;
 }
 
-// Jobsheet 8: INSERT prepared statement, menggantikan
-// $_SESSION['jadwal'][] = ... dari Jobsheet 7.
-$stmt = $pdo->prepare(
-    "INSERT INTO jadwal (tanggal, kota, venue, kapasitas, harga_mulai, status)
-     VALUES (:tanggal, :kota, :venue, :kapasitas, :harga_mulai, :status)
-     RETURNING id"
-);
-$stmt->execute([
-    'tanggal'     => $tanggal,
-    'kota'        => $kota,
-    'venue'       => $venue,
-    'kapasitas'   => (int) $kapasitas,
-    'harga_mulai' => (int) $harga,
-    'status'      => kodeStatus($status),
-]);
+try {
+    // Jalankan fungsi kodeStatus jika ada, jika tidak gunakan string $status langsung
+    $status_final = function_exists('kodeStatus') ? kodeStatus($status) : $status;
 
-$_SESSION['flash'] = ['type' => 'sukses', 'pesan' => 'Jadwal tur berhasil ditambahkan.'];
-header('Location: list.php');
-exit;
+    // INSERT yang fleksibel mengisi kolom baru & fallback kolom legacy PostgreSQL
+    $stmt = $pdo->prepare(
+        "INSERT INTO jadwal (
+            tanggal, kota, venue, kapasitas, harga_mulai, status,
+            nama_event, lokasi, tanggal_konser, waktu_konser
+        ) VALUES (
+            :tanggal, :kota, :venue, :kapasitas, :harga_mulai, :status,
+            :nama_event, :lokasi, :tanggal_konser, :waktu_konser
+        ) RETURNING id"
+    );
+
+    $stmt->execute([
+        'tanggal'        => $tanggal,
+        'kota'           => $kota,
+        'venue'          => $venue,
+        'kapasitas'      => (int) $kapasitas,
+        'harga_mulai'    => (int) $harga,
+        'status'         => $status_final,
+        'nama_event'     => "ENHYPEN TOUR - " . $kota,
+        'lokasi'         => $venue,
+        'tanggal_konser' => $tanggal,
+        'waktu_konser'   => '19:00:00'
+    ]);
+
+    $_SESSION['flash'] = ['type' => 'sukses', 'pesan' => 'Jadwal tur berhasil ditambahkan.'];
+    header('Location: list.php');
+    exit;
+
+} catch (PDOException $e) {
+    die("Error Simpan Jadwal: " . $e->getMessage());
+}
