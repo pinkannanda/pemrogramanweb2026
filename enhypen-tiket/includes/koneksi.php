@@ -1,34 +1,39 @@
 <?php
-// Mengambil DATABASE_URL dari environment Railway
+// Ambil DATABASE_URL dari Railway
 $database_url = getenv('DATABASE_URL');
 
 if ($database_url) {
-    // Jalur Koneksi untuk Railway / Neon
+    // Lingkungan Railway (Neon PostgreSQL)
     $dbopts = parse_url($database_url);
     
-    $host     = $dbopts["host"];
+    $host     = $dbopts["host"] ?? '';
     $port     = $dbopts["port"] ?? 5432;
-    $user     = $dbopts["user"];
-    $password = $dbopts["pass"];
-    $dbname   = ltrim($dbopts["path"], '/');
+    $user     = $dbopts["user"] ?? '';
+    $password = $dbopts["pass"] ?? '';
+    $dbname   = isset($dbopts["path"]) ? ltrim($dbopts["path"], '/') : '';
 
     try {
         $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
         $pdo = new PDO($dsn, $user, $password, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]);
     } catch (PDOException $e) {
         die("Koneksi database gagal: " . $e->getMessage());
     }
 } else {
-    // Jalur Koneksi untuk Localhost
+    // Lingkungan Localhost (Fallback)
     $host     = '127.0.0.1';
     $dbname   = 'neondb';
     $user     = 'postgres';
     $password = 'secret';
 
     try {
-        $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
+        $dsn = "pgsql:host=$host;dbname=$dbname";
+        $pdo = new PDO($dsn, $user, $password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]);
     } catch (PDOException $e) {
         die("Koneksi database gagal: " . $e->getMessage());
     }
