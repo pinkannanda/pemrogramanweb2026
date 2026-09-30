@@ -21,28 +21,33 @@ if (empty($nama) || empty($username) || empty($password)) {
     exit;
 }
 
-// Cek Username Duplikat
-$stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
-$stmt->execute([$username]);
-if ($stmt->fetch()) {
+try {
+    // 1. Cek Username Duplikat
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    if ($stmt->fetch()) {
+        $_SESSION['flash'] = [
+            'type' => 'error',
+            'pesan' => 'Username sudah digunakan, silakan pilih username lain.'
+        ];
+        header('Location: register.php');
+        exit;
+    }
+
+    // 2. Hash Password
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+    // 3. Simpan ke Database
+    $stmt = $pdo->prepare("INSERT INTO users (nama, username, password) VALUES (?, ?, ?)");
+    $stmt->execute([$nama, $username, $passwordHash]);
+
     $_SESSION['flash'] = [
-        'type' => 'error',
-        'pesan' => 'Username sudah digunakan, silakan pilih username lain.'
+        'type' => 'sukses',
+        'pesan' => 'Registrasi berhasil! Silakan login.'
     ];
-    header('Location: register.php');
+    header('Location: login.php');
     exit;
+
+} catch (PDOException $e) {
+    die("Error Register: " . $e->getMessage());
 }
-
-// Hash Password
-$passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-// Simpan ke Database
-$stmt = $pdo->prepare("INSERT INTO users (nama, username, password) VALUES (?, ?, ?)");
-$stmt->execute([$nama, $username, $passwordHash]);
-
-$_SESSION['flash'] = [
-    'type' => 'sukses',
-    'pesan' => 'Registrasi berhasil! Silakan login.'
-];
-header('Location: login.php');
-exit;
