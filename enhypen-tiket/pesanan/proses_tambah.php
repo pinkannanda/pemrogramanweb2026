@@ -8,13 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// 1. Tangkap input POST dari form tambah.php
-$nama     = trim($_POST['nama_pemesan'] ?? $_POST['nama'] ?? '');
-$email    = trim($_POST['email'] ?? '');
-$telepon  = trim($_POST['telepon'] ?? $_POST['no_wa'] ?? '');
-$kota     = trim($_POST['kota'] ?? '');
+// 1. Tangkap input POST
+$nama   = trim($_POST['nama_pemesan'] ?? $_POST['nama'] ?? '');
+$email  = trim($_POST['email'] ?? '');
+$telepon = trim($_POST['telepon'] ?? $_POST['no_wa'] ?? '');
+$kota   = trim($_POST['kota'] ?? '');
 $kategori = trim($_POST['kategori'] ?? '');
-$jumlah   = (int) ($_POST['jumlah'] ?? $_POST['jumlah_tiket'] ?? 1);
+$jumlah = (int) ($_POST['jumlah'] ?? $_POST['jumlah_tiket'] ?? 1);
 
 // 2. Validasi input
 if ($nama === '' || $email === '' || $telepon === '' || $kota === '' || $kategori === '') {
@@ -25,9 +25,9 @@ if ($nama === '' || $email === '' || $telepon === '' || $kota === '' || $kategor
 }
 
 try {
-    // 3. Simpan data menggunakan kolom nama_pemesan
+    // 3. Simpan ke database dengan nama kolom jumlah_tiket
     $stmt = $pdo->prepare('
-        INSERT INTO pesanan (nama_pemesan, email, telepon, kota, kategori, jumlah)
+        INSERT INTO pesanan (nama_pemesan, email, telepon, kota, kategori, jumlah_tiket)
         VALUES (:nama, :email, :telepon, :kota, :kategori, :jumlah)
     ');
 
