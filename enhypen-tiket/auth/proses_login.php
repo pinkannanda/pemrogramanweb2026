@@ -20,29 +20,35 @@ if ($username === '' || $password === '') {
     exit;
 }
 
-$stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
-$stmt->execute(['username' => $username]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+try {
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
+    $stmt->execute(['username' => $username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$user || !password_verify($password, $user['password'])) {
+    if (!$user || !password_verify($password, $user['password'])) {
+        $_SESSION['flash'] = [
+            'type' => 'error',
+            'pesan' => 'Username atau password salah.'
+        ];
+        header('Location: login.php');
+        exit;
+    }
+
+    $nama_user = !empty($user['nama']) ? $user['nama'] : $user['username'];
+
+    $_SESSION['user_id']  = $user['id'];
+    $_SESSION['username'] = $user['username'];
+    $_SESSION['nama']     = $nama_user;
+
     $_SESSION['flash'] = [
-        'type' => 'error',
-        'pesan' => 'Username atau password salah.'
+        'type' => 'sukses',
+        'pesan' => 'Selamat datang kembali, ' . $nama_user . '!'
     ];
-    header('Location: login.php');
+
+    // Redirect aman untuk Railway & Localhost
+    header('Location: ../index.php');
     exit;
+
+} catch (PDOException $e) {
+    die("Error Login: " . $e->getMessage());
 }
-
-$nama_user = !empty($user['nama']) ? $user['nama'] : $user['username'];
-
-$_SESSION['user_id']  = $user['id'];
-$_SESSION['username'] = $user['username'];
-$_SESSION['nama']     = $nama_user;
-
-$_SESSION['flash'] = [
-    'type' => 'sukses',
-    'pesan' => 'Selamat datang kembali, ' . $nama_user . '!'
-];
-
-header('Location: ../pesanan/list.php');
-exit;
